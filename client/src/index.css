@@ -151,5 +151,5 @@ body {
 }
 
 .upload-btn {
-    @apply flex items-center justify-center gap-2 py-3 mt-4 w-full rounded bg-gradient-to-r from-[#ECC154] to-amber-200 hover:to-[#e0b23c] active:scale-95 transition text-gray-950 font-medium cursor-pointer;
+    @apply flex items-center justify-center gap-2 py-3 mt-4 w-full rounded bg-gradient-to-r from-[#ECC154] to-amber-200 hover:to-[#e0b23c] active:scale-95 transition text-gray-950 font-medium cursor-pointer focus:outline-none;
 }

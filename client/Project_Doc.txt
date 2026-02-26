@@ -6,18 +6,20 @@ npm install
 npm run dev
 
 Packages Used:
-1. Tailwind CSS
+1. Tailwind CSS (For Styling)
 npm install tailwindcss @tailwindcss/vite
 
-2. React Router DOM
+2. React Router DOM (For Routing)
 npm install react-router-dom
 
-3. Lucide React Icon
+3. Lucide React (For Icons)
 npm install lucide-react
 
-4. Clerk React
+4. Clerk React (For Auth)
 npm install @clerk/clerk-react
 
 5. Moment (For Time)
 npm install moment
 
+6. React Hot Toast (For Toasters)
+npm install react-hot-toast

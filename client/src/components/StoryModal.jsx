@@ -1,5 +1,6 @@
 import { Sparkle, TextIcon, Upload, X } from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const StoryModal = ({ setShowModal, fetchStories }) => {
   const bgClrs = [
@@ -101,8 +102,17 @@ const StoryModal = ({ setShowModal, fetchStories }) => {
             <Upload size={18} /> Photo/Video
           </label>
         </div>
-        <button className="upload-btn">
-          <Sparkle size={18}/> Upload Story
+        <button
+          className="upload-btn"
+          onClick={() =>
+            toast.promise(handleCreateStory, {
+              loading: "Saving...",
+              success: <p>Story Uploaded</p>,
+              error: (e) => <p>{e.message}</p>,
+            })
+          }
+        >
+          <Sparkle size={18} /> Upload Story
         </button>
       </div>
     </div>
