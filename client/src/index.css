@@ -156,11 +156,11 @@ body {
 
 /* View Story */
 .view-story-container {
-  @apply fixed inset-0 h-screen bg-black opacity-90 text-gray-50 flex items-center justify-center z-110;
+  @apply fixed inset-0 h-screen bg-black/90 text-gray-50 flex items-center justify-center z-110;
 }
 
 .view-story-container .progress-bar {
-  @apply absolute top-0 left-0 w-full h-1 bg-gray-700;
+  @apply absolute top-0 left-0 w-full h-1 bg-gray-500;
 }
 
 .view-story-container .progress-line {
@@ -172,9 +172,13 @@ body {
 }
 
 .view-story-container .close-btn {
-  @apply absolute top-4 right-4 text-gray-50 text-3xl font-bold focus:outline-none;
+  @apply absolute top-4 right-4 text-gray-50 bg-black/50 rounded-full p-2 font-bold focus:outline-none;
 }
 
 .view-story-container .close-btn .close-icon {
-  @apply w-8 h-8 hover:scale-110 transition cursor-pointer;
+  @apply hover:scale-110 transition cursor-pointer;
+}
+
+.view-story-container .content-wrapper {
+    @apply max-w-[90vw] max-h-[90vh] flex items-center justify-center;
 }
