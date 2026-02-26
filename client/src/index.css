@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import "tailwindcss";
+
+* {
+    font-family: "Outfit", sans-serif;
+}
+
+body {
+    @apply bg-white;
+}
+
+/* --- Login Page --- */
+.login-screen {
+    @apply min-h-screen flex flex-col md:flex-row;
+}
+
+.login-bg {
+    @apply absolute top-0 left-0 -z-1 w-screen h-screen;
+    background-image: url('/bg-2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+@media (min-width: 400px) {
+    .login-bg {
+        background-image: url("/bg.jpg");
+    }
+}
+
+/* Left side: Branding Content */
+.brand-container {
+    @apply flex flex-1 flex-col items-start justify-evenly md:justify-between p-6 md:p-10 lg:pl-40;
+}
+
+.logo {
+    @apply h-34 md:h-48 object-contain;
+}
+
+.brand-content {
+    @apply flex items-center gap-3 md:mb-12 my-1 mt-10;
+}
+
+.star {
+    @apply size-4 md:size-4.5 ml-1 mb-1 text-transparent fill-[#ECC154];
+}
+
+.title {
+    @apply text-3xl md:text-6xl leading-16 md:pb-2 font-bold bg-gradient-to-r from-[#ECC154] to-gray-300 bg-clip-text text-transparent max-md:bg-gradient-to-l;
+}
+
+.subtitle {
+    @apply text-xl md:text-3xl max-w-72 md:max-w-md bg-gradient-to-tr from-[#ECC154] to-gray-300 bg-clip-text text-transparent;
+}
+
+/* Right side: Login Form */
+.login-container {
+    @apply flex flex-1 items-center justify-center p-6 sm:p-0;
+}
+
+/* Layout */
+.btn {
+    @apply absolute top-3 right-3 p-2 z-100 bg-gray-100 rounded-md shadow w-10 h-10 text-gray-950 active:text-[#ECC154] sm:hidden;
+}
+
+/* ==== Components ==== */
+/* Sidebar */
+.sidebar-container {
+    @apply w-60 xl:w-72 bg-gray-900 border-r border-gray-200 flex flex-col justify-between items-center max-sm:absolute top-0 bottom-0 z-20 transition-all duration-300 ease-in-out;
+}
+
+.sidebar-container .post-btn{
+    @apply flex items-center justify-center gap-2 py-2.5 mt-6 md:mt-10 mx-6 rounded-2xl bg-gradient-to-r from-[#ECC154] to-amber-200 hover:to-[#e0b23c] active:scale-95 transition text-gray-950 font-semibold tracking-wider cursor-pointer;
+}
+
+.sidebar-container .profile-btn {
+    @apply w-full border-t border-gray-200 p-4 px-7 flex items-center justify-between text-gray-200;
+}
+
+.sidebar-container .logout-btn {
+    @apply w-4.5 text-gray-400 hover:text-[#ECC154] transition cursor-pointer;
+}
+
+/* Loading */
+.load-container {
+    @apply w-10 h-10 rounded-full border-3 border-black border-t-transparent animate-spin;
+}
+
+/* Menu */
+.menu-container {
+    @apply px-6 text-gray-600 space-y-1 font-medium;
+}
+
+.nav-item {
+    @apply px-3.5 py-2 flex items-center gap-3 mb-2 rounded-2xl;
+}
+
+/* Feed */
+.feed-container {
+    @apply h-full overflow-y-scroll py-10 xl:pr-5 flex items-start justify-center xl:gap-8;
+    scrollbar-width: none;
+}
+
+/* Storybar */
+.storybar-container {
+    @apply w-screen sm:w-[calc(100vw-240px)] lg:max-w-2xl overflow-x-auto px-4;
+    scrollbar-width: none;
+}
+
+.new-story-card {
+    @apply rounded-lg shadow-sm min-w-30 max-w-30 max-h-40 aspect-[3/4] cursor-pointer hover:shadow-lg transition-all duration-200 border-2 border-dashed border-[#ECC154] bg-gradient-to-b from-gray-100 to-gray-50;
+}
+
+.new-story-card .add-icon {
+    @apply size-10 bg-[#e0b23c] rounded-full flex items-center justify-center mb-4;
+}
+
+.story-card {
+    @apply relative rounded-lg shadow min-w-30 max-w-30 max-h-40 cursor-pointer hover:shadow-lg transition-all duration-200 bg-gradient-to-b from-gray-700 to-gray-950 hover:from-gray-700 hover:to-gray-800 active:scale-95 overflow-hidden;
+}
+
+.story-card .profile-pic {
+    @apply absolute size-8 top-3 left-3 z-10 rounded-full ring ring-[#e0b23c] shadow;
+}
+
+.story-card .content {
+    @apply absolute top-18 left-3 text-gray-200 text-sm truncate max-w-24;
+}
+
+.story-card .creation-datetime {
+    @apply text-white/60 absolute bottom-1 right-2 z-10 text-xs;
+}
+
+.story-card .story-img,
+.story-card .story-video {
+    @apply h-full w-full object-cover hover:scale-110 transition duration-500 opacity-70 hover:opacity-80;
+}
+
+/* Story Modal */
+.story-modal {
+    @apply fixed inset-0 z-110 min-h-screen bg-black/80 backdrop-blur text-white flex items-center justify-center p-4;
+}
+
+.add-story-content {
+    @apply bg-transparent text-gray-950 w-full h-full p-6 text-lg resize-none focus:outline-none;
+}
+
+.text-btn,
+.media-btn {
+    @apply flex-1 flex items-center justify-center gap-2 p-2 rounded cursor-pointer;
+}
+
+.upload-btn {
+    @apply flex items-center justify-center gap-2 py-3 mt-4 w-full rounded bg-gradient-to-r from-[#ECC154] to-amber-200 hover:to-[#e0b23c] active:scale-95 transition text-gray-950 font-medium cursor-pointer;
+}

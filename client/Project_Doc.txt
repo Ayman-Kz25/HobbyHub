@@ -1,0 +1,23 @@
+Libraries Used:
+
+1. React With Vite
+npm create vite@latest
+npm install
+npm run dev
+
+Packages Used:
+1. Tailwind CSS
+npm install tailwindcss @tailwindcss/vite
+
+2. React Router DOM
+npm install react-router-dom
+
+3. Lucide React Icon
+npm install lucide-react
+
+4. Clerk React
+npm install @clerk/clerk-react
+
+5. Moment (For Time)
+npm install moment
+
