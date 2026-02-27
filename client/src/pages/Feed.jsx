@@ -24,7 +24,11 @@ const Feed = () => {
         <Storybar />
         {/* Post List */}
         <div className="p-4 space-y-6">
-          List of Posts
+          {
+            feeds.map((post)=>(
+              <PostCard key={post._id} post={post} />
+            ))
+          }
         </div>
       </div>
       {/* Right Sidebar */}

@@ -11,11 +11,11 @@ export const menuItems = [
 export const userData = {
   _id: "u1",
   email: "ayman.kz@example.com",
-  full_name: "Ayman Kz",
-  user_name: "aymankz",
-  bio: "Just a tech enthusiast sharing thoughts!",
-  profile_pic: "/src/assets/profile.png",
-  cover_photo: "https://picsum.photos/800/200",
+  full_name: "Anya Khan",
+  user_name: "anyakhan",
+  bio: "Front-end developer by profession,💻 Designer by passion ✨ Turning ideas into interactive experiences. Side projects, clean code, and late-night debugging sessions fuel my creativity.",
+  profile_pic: "https://i.pinimg.com/1200x/4b/ac/d3/4bacd354cc8936605be7e20984fc745f.jpg",
+  cover_photo: "",
   location: "San Francisco, CA, USA",
   followers: ["u2", "u3", "u4"],
   following: ["u2", "u5", "u6"],
@@ -34,7 +34,8 @@ export const user2Data = {
   _id: "u2",
   user_name: "annawilson",
   full_name: "Anna Wilson",
-  profile_pic: "https://i.pinimg.com/736x/42/f9/83/42f9832cf59f58eafadb035d80adf306.jpg",
+  bio: "Painter & visual storyteller 🎨 Inspired by light, emotion, and everyday beauty. Creating art that speaks without words.",
+  profile_pic: "https://i.pinimg.com/736x/4f/ef/40/4fef40597b2009403b548700350109c7.jpg",
 };
 
 export const user3Data = {
@@ -42,6 +43,7 @@ export const user3Data = {
   _id: "u3",
   user_name: "alikhan",
   full_name: "Ali Khan",
+  bio: "Photographer chasing golden hours 📸 Capturing stories through light, shadows, and spontaneous moments.",
   profile_pic: "https://i.pinimg.com/736x/13/c7/56/13c75665a3b6bc1ff7836f92b2064049.jpg",
 };
 
@@ -50,6 +52,7 @@ export const user4Data = {
   _id: "u4",
   user_name: "dylanthorn",
   full_name: "Dylan Thorn",
+  bio: "Singer-songwriter 🎸 Turning feelings into melodies. Acoustic nights, studio sessions, and music that connects souls.",
   profile_pic: "https://i.pinimg.com/736x/98/9c/86/989c8675ea88cc9892c660089b63dc6c.jpg",
 };
 
@@ -58,15 +61,33 @@ export const user5Data = {
   _id: "u5",
   user_name: "sarahshah",
   full_name: "Sarah Shah",
-  profile_pic: "https://i.pinimg.com/736x/0e/3b/3d/0e3b3d79ed9ecc8262ffced61c1e0650.jpg",
+  bio: "Home baker & dessert lover 🥐 Baking happiness one recipe at a time. Flour, patience, and a little sweetness.",
+  profile_pic: "https://i.pinimg.com/736x/5f/11/e2/5f11e2b0c0af5c71795314ab0232e41f.jpg",
 };
 
+export const user6Data = {
+  ...userData,
+  _id: "u6",
+  user_name: "leomartin",
+  full_name: "Leo Martin",
+  bio: "Athlete | Marathon Runner | Discipline builds freedom 🏃‍♂️",
+  profile_pic: "https://i.pinimg.com/736x/95/69/c7/9569c7ed1cd5ba05d86b6d51d489067c.jpg",
+};
+
+export const user7Data = {
+  ...userData,
+  _id: "u7",
+  user_name: "jasminewrites",
+  full_name: "Jasmine Noor",
+  bio: "Lifestyle Blogger | Storyteller | Coffee & late night thoughts ☕✨",
+  profile_pic: "https://i.pinimg.com/736x/42/b7/4c/42b74c2d949bfa432c0b947be07cb482.jpg",
+};
 
 
 export const storyData = [
   {
     _id: "s1",
-    user: userData,
+    user: user5Data,
     content: "",
     media_url: "https://i.pinimg.com/736x/bd/e5/12/bde5123b32122d235c5fc8c3fb367417.jpg",
     media_type: "image",
@@ -96,7 +117,7 @@ export const storyData = [
   },
   {
     _id: "s4",
-    user: user5Data,
+    user: userData,
     content:
       "Spent 2 hours building a small React side project today. Coding as a hobby feels different - no deadlines, just creativity and curiosity.",
     media_url: "",
@@ -126,17 +147,52 @@ export const storyData = [
     createdAt: "2026-02-17T20:00:00Z",
     updatedAt: "2026-02-17T20:05:00Z",
   },
+  {
+  _id: "s7",
+  user: user6Data,
+  content:
+    "Morning training session complete 🏃‍♂️ Consistency beats motivation every single time. Showing up daily is the real victory.⚡",
+  media_url: "",
+  media_type: "text",
+  bg_clr: "#FDE68A",
+  createdAt: "2026-02-26T06:30:00Z",
+  updatedAt: "2026-02-26T06:35:00Z",
+},
+{
+  _id: "s8",
+  user: user7Data,
+  content:
+    "Spent the evening journaling at my favorite café ☕ There’s something powerful about putting your thoughts into words and watching clarity unfold.",
+  media_url: "https://i.pinimg.com/736x/ab/4e/19/ab4e19c9c8a5a3f4dff12e4e5f8a7a90.jpg",
+  media_type: "image",
+  bg_clr: "#FBCFE8",
+  createdAt: "2026-02-26T20:00:00Z",
+  updatedAt: "2026-02-26T20:05:00Z",
+},
 ];
+
+
+/*
+
+user1 = Ayman = Developer
+user2 = Anna = Painter
+user3 = Ali = Photographer
+user4 = Dylan = Singer
+user5 = Sarah = Baker
+user6 = Leo = Athlete
+user7 = Jasmine = Blogger
+
+*/
 
 export const postsData = [
   {
     _id: "post1",
-    user: userData,
+    user: user3Data,
     content:
       "Photography has taught me patience. Waiting for the perfect lighting, the perfect angle, the perfect moment — it makes you appreciate the little details in life. 📷✨",
-    media_url: "https://picsum.photos/600/400?random=31",
-    media_type: "image",
-    likes: ["u2", "u3"],
+    media_url: "/src/assets/video1.mp4",
+    media_type: "video",
+    likes: ["u2", "u3", "u5"],
     comments: [
       {
         _id: "c1",
@@ -150,7 +206,7 @@ export const postsData = [
   },
   {
     _id: "post2",
-    user: user2Data,
+    user: user7Data,
     content:
       "Tried a new Italian pasta recipe from scratch today 🍝 Cooking is becoming more than a hobby — it’s creative expression.",
     media_url: "https://picsum.photos/600/400?random=32",
@@ -162,7 +218,7 @@ export const postsData = [
   },
   {
     _id: "post3",
-    user: user3Data,
+    user: user6Data,
     content:
       "Completed a 12km endurance run this weekend. Fitness isn’t just about physical strength — it builds mental resilience and discipline.",
     media_url: "",
@@ -204,15 +260,22 @@ export const postsData = [
     updatedAt: "2026-02-18T18:05:00Z",
   },
   {
-    _id: "post6",
-    user: user3Data,
-    content:
-      "Spent the afternoon working in my small backyard garden 🌱 Watching plants grow over time is one of the most satisfying hobbies I’ve picked up.",
-    media_url: "https://picsum.photos/600/400?random=34",
-    media_type: "image",
-    likes: ["u1"],
-    comments: [],
-    createdAt: "2026-02-17T16:00:00Z",
-    updatedAt: "2026-02-17T16:05:00Z",
-  },
+  _id: "post6",
+  user: user5Data,
+  content:
+    "Early morning baking session today 🥖 There’s something magical about the smell of fresh bread filling the kitchen. Baking has taught me patience, precision, and the beauty of small details.",
+  media_url: "https://picsum.photos/600/400?random=55",
+  media_type: "image",
+  likes: ["u1", "u2", "u3"],
+  comments: [
+    {
+      _id: "c3",
+      user: userData,
+      content: "This looks delicious! 🔥",
+      createdAt: "2026-02-17T17:00:00Z",
+    },
+  ],
+  createdAt: "2026-02-17T16:00:00Z",
+  updatedAt: "2026-02-17T16:05:00Z",
+},
 ];

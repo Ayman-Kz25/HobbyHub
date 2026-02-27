@@ -195,3 +195,7 @@ body {
 .post-card .profile-pic {
   @apply w-10 h-10 rounded-full shadow;
 }
+
+.post-card .post-content {
+  @apply text-gray-800 text-sm whitespace-pre-line;
+}
