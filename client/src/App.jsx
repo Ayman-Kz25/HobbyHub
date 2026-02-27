@@ -3,7 +3,7 @@ import Login from './pages/Login'
 import Feed from './pages/Feed'
 import Chats from './pages/Chats'
 import ChatBox from './pages/ChatBox'
-import Connections from './pages/Connections'
+import Friends from './pages/Friends'
 import Discover from './pages/Discover'
 import Profile from './pages/Profile'
 import CreatePost from './pages/CreatePost'
@@ -21,7 +21,7 @@ const App = () => {
           <Route index element={<Feed />} />
           <Route path='chats' element={<Chats />} />
           <Route path='chats/:userId' element={<ChatBox />} />
-          <Route path='connections' element={<Connections />} />
+          <Route path='friends' element={<Friends />} />
           <Route path='discover' element={<Discover />} />
           <Route path='profile' element={<Profile />} />
           <Route path='profile/:profileId' element={<Profile />} />

@@ -3,7 +3,7 @@ import { Home, MessageCircle, Search, UserIcon, Users } from "lucide-react";
 export const menuItems = [
   { to: "/", label: "Feed", Icon: Home },
   { to: "/chats", label: "Chats", Icon: MessageCircle },
-  { to: "/connections", label: "Connections", Icon: Users },
+  { to: "/friends", label: "Friends", Icon: Users },
   { to: "/discover", label: "Discover", Icon: Search },
   { to: "/profile", label: "Profile", Icon: UserIcon },
 ];
@@ -176,7 +176,7 @@ export const storyData = [
     content:
       "Spent the evening journaling at my favorite café ☕ There’s something powerful about putting your thoughts into words and watching clarity unfold.",
     media_url:
-      "https://i.pinimg.com/736x/ab/4e/19/ab4e19c9c8a5a3f4dff12e4e5f8a7a90.jpg",
+      "https://i.pinimg.com/1200x/1d/d7/97/1dd7979d03d8c62df0d292b82f27b0cd.jpg",
     media_type: "image",
     bg_clr: "#FBCFE8",
     createdAt: "2026-02-26T20:00:00Z",
@@ -377,4 +377,16 @@ export const connectionsData = [
     online: true,
     lastActive: "2026-02-25T20:05:00Z",
   },
+];
+
+export const followingData = [
+
+];
+
+export const followersData = [
+
+];
+
+export const pendingConnectionsData = [
+
 ];
