@@ -1,7 +1,7 @@
 import {Route, Routes} from 'react-router-dom'
 import Login from './pages/Login'
 import Feed from './pages/Feed'
-import Messages from './pages/Messages'
+import Chats from './pages/Chats'
 import ChatBox from './pages/ChatBox'
 import Connections from './pages/Connections'
 import Discover from './pages/Discover'
@@ -19,8 +19,8 @@ const App = () => {
       <Routes>
         <Route path='/' element={!user ? <Login /> : <Layout />}>
           <Route index element={<Feed />} />
-          <Route path='messages' element={<Messages />} />
-          <Route path='messages/:userId' element={<ChatBox />} />
+          <Route path='chats' element={<Chats />} />
+          <Route path='chats/:userId' element={<ChatBox />} />
           <Route path='connections' element={<Connections />} />
           <Route path='discover' element={<Discover />} />
           <Route path='profile' element={<Profile />} />

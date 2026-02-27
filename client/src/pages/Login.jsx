@@ -5,9 +5,6 @@ import {SignIn} from '@clerk/clerk-react'
 const Login = () => {
   return (
     <div className='login-screen'>
-      {/* Background Image */}
-      <div className='login-bg'></div>
-
       {/* Left side: Branding Text */}
       <div className='brand-container'>
         <img src="/logo-4.png" alt="Logo" className="logo max-md:absolute max-md:top-0 max-md:right-0" />
@@ -23,7 +20,7 @@ const Login = () => {
           </div>
           {/* Title Goes Here */}
           <h1 className='title'>
-            More Than Social,<br /> Truly Connected
+            More Than Social, Truly Connected
           </h1>
           <p className='subtitle'> 
             Experience seamless networking with LinkUp.

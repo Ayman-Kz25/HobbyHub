@@ -1,7 +1,18 @@
-import { BadgeCheck } from "lucide-react";
+import { BadgeCheck, Heart, MessageCircle, Share2 } from "lucide-react";
 import moment from "moment";
+import { useState } from "react";
+import { userData } from "../data/data";
 
 const PostCard = ({ post }) => {
+
+    const [likes, setLikes] = useState(post.likes);
+    const currentUser = userData
+  const postWithHashtag = post.content.replace(
+    /(#\w+)/g,
+    '<span class="text-[#ecb52b]">$1</span>'
+  );
+  const handleLike = async () => {
+  }
   return (
     <div className="post-card">
       {/* User Info */}
@@ -22,7 +33,7 @@ const PostCard = ({ post }) => {
       {post.content && (
         <div
           className="post-content"
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          dangerouslySetInnerHTML={{ __html: postWithHashtag }}
         />
       )}
 
@@ -61,6 +72,25 @@ const PostCard = ({ post }) => {
           })}
         </div>
       )}
+
+      {/* Actions */}
+      <div className="action-btns">
+        {/* Likes */}
+        <div className="flex items-center gap-1">
+            <Heart size={18} className={`icon ${likes.includes(currentUser._id) && 'text-red-500 fill-red-500'}`} onClick={handleLike}/>
+            <span>{likes.length}</span>
+        </div>
+        {/* Comments */}
+        <div className="flex items-center gap-1">
+            <MessageCircle size={18}/>
+            <span>{2}</span>
+        </div>
+        {/* Share */}
+        <div className="flex items-center gap-1">
+            <Share2 size={18}/>
+            <span>{4}</span>
+        </div>
+      </div>
     </div>
   );
 };

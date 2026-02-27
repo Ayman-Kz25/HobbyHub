@@ -11,19 +11,12 @@ body {
 
 /* --- Login Page --- */
 .login-screen {
-  @apply min-h-screen flex flex-col md:flex-row;
-}
-
-.login-bg {
-  @apply absolute top-0 left-0 -z-1 w-screen h-screen;
+  @apply min-h-[100dvh] flex flex-col md:flex-row bg-cover bg-center bg-no-repeat;
   background-image: url("/bg-2.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
 }
 
 @media (min-width: 400px) {
-  .login-bg {
+  .login-screen {
     background-image: url("/bg.jpg");
   }
 }
@@ -46,7 +39,7 @@ body {
 }
 
 .title {
-  @apply text-3xl md:text-6xl leading-16 md:pb-2 font-bold bg-gradient-to-r from-[#ECC154] to-gray-300 bg-clip-text text-transparent max-md:bg-gradient-to-l;
+  @apply text-3xl md:text-6xl md:leading-16 md:pb-2 font-bold bg-gradient-to-r from-[#ECC154] to-gray-300 bg-clip-text text-transparent max-md:bg-gradient-to-l;
 }
 
 .subtitle {
@@ -62,6 +55,13 @@ body {
 .btn {
   @apply absolute top-3 right-3 p-2 z-100 bg-gray-100 rounded-md shadow w-10 h-10 text-gray-950 active:text-[#ECC154] sm:hidden;
 }
+
+/* Feed */
+.feed-container {
+  @apply h-full overflow-y-scroll py-10 xl:pr-5 flex items-start justify-center xl:gap-8;
+  scrollbar-width: none;
+}
+
 
 /* ==== Components ==== */
 /* Sidebar */
@@ -93,12 +93,6 @@ body {
 
 .nav-item {
   @apply px-3.5 py-2 flex items-center gap-3 mb-2 rounded-2xl;
-}
-
-/* Feed */
-.feed-container {
-  @apply h-full overflow-y-scroll py-10 xl:pr-5 flex items-start justify-center xl:gap-8;
-  scrollbar-width: none;
 }
 
 /* Storybar */
@@ -198,4 +192,22 @@ body {
 
 .post-card .post-content {
   @apply text-gray-800 text-sm whitespace-pre-line;
+}
+
+.post-card .action-btns {
+  @apply flex items-center gap-4 text-gray-400 text-sm pt-2 border-t border-gray-300;
+}
+
+.post-card .action-btns .icon {
+  @apply cursor-pointer;
+}
+
+/* Recent Messages */
+.msg-container {
+  @apply bg-gray-50 max-w-xs mt-4 p-4 min-h-20 rounded-md shadow text-xs text-gray-800;
+}
+
+.msg-container .msg-box {
+  @apply flex flex-col max-h-56 overflow-y-scroll;
+  scrollbar-width: none;
 }

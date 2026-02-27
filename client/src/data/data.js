@@ -2,7 +2,7 @@ import { Home, MessageCircle, Search, UserIcon, Users } from "lucide-react";
 
 export const menuItems = [
   { to: "/", label: "Feed", Icon: Home },
-  { to: "/messages", label: "Messages", Icon: MessageCircle },
+  { to: "/chats", label: "Chats", Icon: MessageCircle },
   { to: "/connections", label: "Connections", Icon: Users },
   { to: "/discover", label: "Discover", Icon: Search },
   { to: "/profile", label: "Profile", Icon: UserIcon },
@@ -300,5 +300,43 @@ export const postsData = [
     ],
     createdAt: "2026-02-17T16:00:00Z",
     updatedAt: "2026-02-17T16:05:00Z",
+  },
+];
+
+export const recentMessages = [
+  {
+    _id: "m1",
+    sender: user2Data, // Anna
+    lastMessage: "Your latest UI design looks amazing! 🎨🔥",
+    unread: 2,
+    createdAt: "2026-02-26T21:10:00Z",
+  },
+  {
+    _id: "m2",
+    sender: user3Data, // Ali
+    lastMessage: "Let’s collaborate on a photo + web project sometime 📷💻",
+    unread: 0,
+    createdAt: "2026-02-26T19:45:00Z",
+  },
+  {
+    _id: "m3",
+    sender: user5Data, // Sarah
+    lastMessage: "I’ll send you that cookie recipe tonight 🍪✨",
+    unread: 1,
+    createdAt: "2026-02-26T18:20:00Z",
+  },
+  {
+    _id: "m4",
+    sender: user6Data, // Leo
+    lastMessage: "Morning run at 6AM tomorrow. You in? 🏃‍♂️",
+    unread: 0,
+    createdAt: "2026-02-25T22:15:00Z",
+  },
+  {
+    _id: "m5",
+    sender: user7Data, // Jasmine
+    lastMessage: "Working on a new blog draft tonight ☕",
+    unread: 3,
+    createdAt: "2026-02-25T20:05:00Z",
   },
 ];
