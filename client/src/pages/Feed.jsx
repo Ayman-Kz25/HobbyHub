@@ -36,9 +36,9 @@ const Feed = () => {
         <div className="max-w-xs bg-gray-50 text-xs p-4 rounded-md inline-flex flex-col gap-2 shadow">
           <h3 className="text-gray-800 font-semibold">Hobbies & Interests</h3>
           <img
-            src="https://i.pinimg.com/736x/a2/eb/94/a2eb946b7f4776b1642fa933e14cfc7d.jpg"
+            src="https://i.pinimg.com/736x/c2/b5/08/c2b5086ddce9a206ac1f25281aacbe66.jpg"
             alt=""
-            className="w-75 h-auto rounded-xl"
+            className="w-75 h-50 rounded-xl"
           />
           <p className="text-gray-700 leading-relaxed">
             Building digital experiences through code & design.
@@ -49,9 +49,7 @@ const Feed = () => {
             creativity.
           </p>
         </div>
-        <div>
-          <RecentMessages />
-        </div>
+        <RecentMessages />
       </div>
     </div>
   ) : (

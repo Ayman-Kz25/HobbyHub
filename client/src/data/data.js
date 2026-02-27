@@ -307,36 +307,74 @@ export const recentMessages = [
   {
     _id: "m1",
     sender: user2Data, // Anna
-    lastMessage: "Your latest UI design looks amazing! 🎨🔥",
-    unread: 2,
+    text: "Your latest UI design looks amazing! 🎨🔥",
+    seen: false,
     createdAt: "2026-02-26T21:10:00Z",
   },
   {
     _id: "m2",
     sender: user3Data, // Ali
-    lastMessage: "Let’s collaborate on a photo + web project sometime 📷💻",
-    unread: 0,
+    text: "Let’s collaborate on a photo + web project sometime 📷💻",
+    seen: true,
     createdAt: "2026-02-26T19:45:00Z",
   },
   {
     _id: "m3",
     sender: user5Data, // Sarah
-    lastMessage: "I’ll send you that cookie recipe tonight 🍪✨",
-    unread: 1,
+    text: "I’ll send you that cookie recipe tonight 🍪✨",
+    seen: false,
     createdAt: "2026-02-26T18:20:00Z",
   },
   {
     _id: "m4",
     sender: user6Data, // Leo
-    lastMessage: "Morning run at 6AM tomorrow. You in? 🏃‍♂️",
-    unread: 0,
+    text: "Morning run at 6AM tomorrow. You in? 🏃‍♂️",
+    seen: true,
     createdAt: "2026-02-25T22:15:00Z",
   },
   {
     _id: "m5",
     sender: user7Data, // Jasmine
-    lastMessage: "Working on a new blog draft tonight ☕",
-    unread: 3,
+    text: "Working on a new blog draft tonight ☕",
+    seen: false,
     createdAt: "2026-02-25T20:05:00Z",
+  },
+];
+
+export const connectionsData = [
+  {
+    _id: "c1",
+    user: user2Data, // Anna
+    lastMessage: "Your latest UI design looks amazing! 🎨🔥",
+    online: true,
+    lastActive: "2026-02-26T21:10:00Z",
+  },
+  {
+    _id: "c2",
+    user: user3Data, // Ali
+    lastMessage: "Let’s collaborate on a photo + web project sometime 📷💻",
+    online: false,
+    lastActive: "2026-02-26T19:45:00Z",
+  },
+  {
+    _id: "c3",
+    user: user5Data, // Sarah
+    lastMessage: "I’ll send you that cookie recipe tonight 🍪✨",
+    online: true,
+    lastActive: "2026-02-26T18:20:00Z",
+  },
+  {
+    _id: "c4",
+    user: user6Data, // Leo
+    lastMessage: "Morning run at 6AM tomorrow. You in? 🏃‍♂️",
+    online: false,
+    lastActive: "2026-02-25T22:15:00Z",
+  },
+  {
+    _id: "c5",
+    user: user7Data, // Jasmine
+    lastMessage: "Working on a new blog draft tonight ☕",
+    online: true,
+    lastActive: "2026-02-25T20:05:00Z",
   },
 ];

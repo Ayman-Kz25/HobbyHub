@@ -62,6 +62,20 @@ body {
   scrollbar-width: none;
 }
 
+/* Chats */
+.chats-container {
+  @apply bg-gray-50 flex flex-col h-screen overflow-hidden;
+}
+
+.chats-container .chat-card {
+  @apply max-w-6xl mx-auto p-6 flex-1 overflow-y-auto;
+  scrollbar-width: none;
+}
+
+.chats-container .chat-btn,
+.chats-container .view-btn {
+  @apply w-10 h-10 flex items-center justify-center text-sm rounded bg-gray-100 hover:bg-gray-200 text-gray-800 active:scale-95 transition cursor-pointer;
+}
 
 /* ==== Components ==== */
 /* Sidebar */
@@ -174,7 +188,7 @@ body {
 }
 
 .view-story-container .content-wrapper {
-    @apply max-w-[90vw] max-h-[90vh] flex items-center justify-center;
+  @apply max-w-[90vw] max-h-[90vh] flex items-center justify-center;
 }
 
 /* Post Card */
@@ -208,6 +222,8 @@ body {
 }
 
 .msg-container .msg-box {
-  @apply flex flex-col max-h-56 overflow-y-scroll;
+  @apply flex flex-col max-h-48 overflow-y-scroll;
   scrollbar-width: none;
 }
+
+/*  */
