@@ -103,7 +103,7 @@ body {
 
 /* Storybar */
 .storybar-container {
-  @apply w-screen sm:w-[calc(100vw-240px)] lg:max-w-2xl overflow-x-auto px-4;
+  @apply w-screen sm:w-[calc(100vw-240px)] lg:max-w-2xl overflow-x-auto px-4 max-md:mt-5;
   scrollbar-width: none;
 }
 
@@ -181,4 +181,17 @@ body {
 
 .view-story-container .content-wrapper {
     @apply max-w-[90vw] max-h-[90vh] flex items-center justify-center;
+}
+
+/* Post Card */
+.post-card {
+  @apply bg-gray-50 rounded-xl shadow p-4 space-y-4 w-full max-w-2xl;
+}
+
+.post-card .user-info {
+  @apply inline-flex items-center gap-3 cursor-pointer;
+}
+
+.post-card .profile-pic {
+  @apply w-10 h-10 rounded-full shadow;
 }
