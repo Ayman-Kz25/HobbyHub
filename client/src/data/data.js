@@ -201,7 +201,7 @@ export const postsData = [
     _id: "post1",
     user: user3Data,
     content:
-      "Photography has taught me patience. Waiting for the perfect lighting, the perfect angle, the perfect moment — it makes you appreciate the little details in life. 📷✨",
+      "Photography has taught me patience. Waiting for the perfect lighting, the perfect angle, the perfect moment — it makes you appreciate the little details in life. 📷✨ \n\n#Photography #GoldenHour #CreativeLife #VisualStorytelling",
     media: [
       { type: "video", url: "/src/assets/video1.mp4" },
     ],
@@ -221,7 +221,7 @@ export const postsData = [
     _id: "post2",
     user: user7Data,
     content:
-      "Tried a new Italian pasta recipe from scratch today 🍝 Cooking is becoming more than a hobby — it’s creative expression.",
+      "Tried a new Italian pasta recipe from scratch today 🍝 Cooking is becoming more than a hobby — it’s #CreativeExpression. Exploring #ItalianCuisine at home makes me appreciate the art behind every plate.",
     media: [
       { type: "image", url: "https://i.pinimg.com/736x/49/85/3a/49853a1a95f3203f69097aba59fb6dae.jpg" },
       { type: "image", url: "https://i.pinimg.com/1200x/6b/42/f1/6b42f1f940560d7468fccea1d2ef832c.jpg" },
@@ -236,7 +236,7 @@ export const postsData = [
     _id: "post3",
     user: user6Data,
     content:
-      "Completed a 12km endurance run this weekend. Fitness isn’t just about physical strength — it builds mental resilience and discipline.",
+      "Completed a 12km endurance run this weekend. #Fitness isn’t just about physical strength — it builds mental resilience and #discipline.",
     media: [
       { type: "image", url: "https://i.pinimg.com/1200x/f7/9e/2c/f79e2cd4827d37f1ce144cd82ec77904.jpg" },
     ],
@@ -256,7 +256,7 @@ export const postsData = [
     _id: "post4",
     user: userData,
     content:
-      "Built a small habit-tracker app this weekend just for fun 💻 Side projects remind me why I fell in love with coding in the first place.",
+      "Built a small habit-tracker app this weekend just for fun 💻 Side projects remind me why I fell in love with coding in the first place.\n\n#DeveloperLife #SideProject #WebDevelopment #CodingJourney #BuildInPublic",
     media: [
       { type: "image", url: null },
     ],
@@ -269,7 +269,7 @@ export const postsData = [
     _id: "post5",
     user: user2Data,
     content:
-      "Finished my latest acrylic painting today 🎨 It started as random brush strokes and somehow turned into something meaningful.",
+      "Finished my latest acrylic painting today 🎨 It started as random brush strokes and somehow turned into something meaningful. That’s the beauty of #ArtLife — trusting the process and letting creativity flow.",
     media: [
       { type: "image", url: "https://i.pinimg.com/736x/00/c7/4a/00c74aceed355716046c9beae66b572b.jpg" },
     ],
@@ -282,7 +282,7 @@ export const postsData = [
     _id: "post6",
     user: user5Data,
     content:
-      "Early morning cookie baking session today 🍪 There’s something comforting about the smell of warm cookies fresh out of the oven, filling the kitchen with sweetness. Baking cookies has taught me patience, precision, and how the smallest ingredients can create the biggest smiles.",
+      "Early morning cookie baking session today 🍪 There’s something comforting about warm cookies fresh out of the oven. #BakingLove has taught me patience, precision, and how the smallest ingredients can create the biggest smiles. Nothing beats homemade sweetness. ✨",
     media: [
       { type: "image", url: "https://i.pinimg.com/1200x/dc/b8/8e/dcb88e81f3d99ba4a793ce0dcfd96fc3.jpg" },
       { type: "image", url: "https://i.pinimg.com/1200x/40/04/21/400421fa6df0a21bbaa3d4fcca19543e.jpg" },
