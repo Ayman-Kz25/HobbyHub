@@ -20,7 +20,46 @@ const PostCard = ({ post }) => {
 
       {/* Post Content */}
       {post.content && (
-        <div className="post-content" dangerouslySetInnerHTML={{__html: post.content}}/>
+        <div
+          className="post-content"
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
+      )}
+
+      {/* Post Media */}
+      {post.media && post.media.length > 0 && (
+        <div
+          className={`mt-3 grid gap-2 ${
+            post.media.length === 1 ? "grid-cols-1" : "grid-cols-2"
+          }`}
+        >
+          {post.media.map((item, index) => {
+            const isSingle = post.media.length === 1;
+
+            return (
+              <div
+                key={index}
+                className={`overflow-hidden rounded-xl ${
+                  isSingle ? "w-full" : "aspect-square"
+                }`}
+              >
+                {item.type === "image" ? (
+                  <img
+                    src={item.url}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <video
+                    src={item.url}
+                    controls
+                    className="w-full h-full object-cover"
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
       )}
     </div>
   );
