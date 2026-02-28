@@ -71,7 +71,7 @@ const Profile = () => {
 
           {/* Media */}
           {activeTab === "media" && (
-            <div className="flex flex-wrap mt-6 max-w-6xl">
+            <div className="flex items-center max-sm:justify-center flex-wrap mt-6 max-w-6xl">
               {posts
                 .filter((post) => post.media && post.media.length > 0)
                 .map((post) => (
@@ -87,12 +87,12 @@ const Profile = () => {
                           <img
                             src={item.url}
                             alt=""
-                            className="w-64 aspect-video object-cover"
+                            className="w-64 aspect-video object-cover max-sm:pb-1"
                           />
                         ) : (
                           <video
                             src={item.url}
-                            className="w-64 aspect-video object-cover"
+                            className="w-64 aspect-video object-cover max-sm:pb-1"
                           />
                         )}
                         <p className="absolute bottom-0 right-0 text-xs p-1 px-3 backdrop-blur-xl text-gray-50 opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
