@@ -136,7 +136,7 @@ export const storyData = [
     media_type: "text",
     bg_clr: "#DBEAFE",
     createdAt: "2026-02-24T22:15:00Z",
-    updatedAt: "2026-02-2T22:20:00Z",
+    updatedAt: "2026-02-24T22:20:00Z",
   },
   {
     _id: "s5",
@@ -257,9 +257,7 @@ export const postsData = [
     user: userData,
     content:
       "Built a small habit-tracker app this weekend just for fun 💻 Side projects remind me why I fell in love with coding in the first place.\n\n#DeveloperLife #SideProject #WebDevelopment #CodingJourney #BuildInPublic",
-    media: [
-      { type: "image", url: null },
-    ],
+    media: [],
     likes: ["u2"],
     comments: [],
     createdAt: "2026-02-19T23:00:00Z",
@@ -380,13 +378,50 @@ export const connectionsData = [
 ];
 
 export const followingData = [
-
+  {
+    _id: "f1",
+    user: user2Data, // Anna
+    followedAt: "2026-01-15T10:00:00Z",
+  },
+  {
+    _id: "f2",
+    user: user5Data, // Sarah
+    followedAt: "2026-01-18T14:30:00Z",
+  },
+  {
+    _id: "f3",
+    user: user6Data, // Leo
+    followedAt: "2026-01-22T09:20:00Z",
+  },
 ];
 
 export const followersData = [
-
+  {
+    _id: "fl1",
+    user: user2Data, // Anna
+    followedAt: "2026-01-12T11:00:00Z",
+  },
+  {
+    _id: "fl2",
+    user: user3Data, // Ali
+    followedAt: "2026-01-14T16:45:00Z",
+  },
+  {
+    _id: "fl3",
+    user: user4Data, // Dylan
+    followedAt: "2026-01-20T19:10:00Z",
+  },
 ];
 
 export const pendingConnectionsData = [
-
+  {
+    _id: "p1",
+    user: user4Data, // Dylan
+    requestedAt: "2026-02-26T12:30:00Z",
+  },
+  {
+    _id: "p2",
+    user: user7Data, // Jasmine
+    requestedAt: "2026-02-26T15:45:00Z",
+  },
 ];

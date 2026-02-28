@@ -40,7 +40,7 @@ const PostCard = ({ post }) => {
       )}
 
       {/* Post Media */}
-      {post.media && post.media.length > 0 && (
+      {post?.media && post.media.length > 0 && (
         <div
           className={`mt-3 grid gap-2 ${
             post.media.length === 1 ? "grid-cols-1" : "grid-cols-2"

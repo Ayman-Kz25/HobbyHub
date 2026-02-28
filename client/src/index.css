@@ -77,6 +77,40 @@ body {
   @apply w-10 h-10 flex flex-1 sm:flex-none items-center justify-center text-sm rounded bg-gray-100 hover:bg-gray-200 text-gray-800 active:scale-95 transition cursor-pointer;
 }
 
+/* Friends */
+.friends-container{
+  @apply bg-gray-50 max-h-screen overflow-y-auto;
+}
+
+.friend-count{
+  @apply flex flex-col items-center justify-center gap-1 border h-20 w-40 border-gray-200 bg-gray-50 shadow rounded-lg;
+}
+
+.friends-container .tabs-panel {
+  @apply inline-flex flex-wrap items-center border border-gray-200 rounded-lg p-1 bg-gray-50 shadow-sm;
+}
+
+.friends-container .tabs-panel .tab-btn{
+  @apply flex items-center px-3 py-1 text-sm rounded-md transition-colors cursor-pointer;
+}
+
+.friends-container .tab-count {
+  @apply ml-2 text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full;
+}
+
+.friends-container .user-profiles {
+  @apply w-full flex gap-5 p-6 bg-gray-50 shadow rounded-lg;
+}
+
+.friends-container .user-profiles .user-btn {
+  @apply flex-1 p-2 text-sm rounded bg-gradient-to-l from-[#ECC154] to-amber-200 hover:to-[#e0b23c] active:scale-95 transition text-gray-950 font-medium cursor-pointer focus:outline-none;
+}
+
+.btn {
+  @apply p-2 text-sm rounded bg-gray-100 hover:bg-gray-200 active:scale-95 transition text-gray-950 cursor-pointer focus:outline-none;
+}
+
+
 /* ==== Components ==== */
 /* Sidebar */
 .sidebar-container {
