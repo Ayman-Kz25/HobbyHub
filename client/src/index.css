@@ -140,6 +140,10 @@ body {
   @apply h-40 md:h-56 bg-gradient-to-r bg-gray-200 via-neutral-200 to-zinc-200;
 }
 
+.profile-container .tab-btn {
+  @apply flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-colors cursor-pointer;
+}
+
 /* ==== Components ==== */
 /* Sidebar */
 .sidebar-container {
