@@ -1,10 +1,22 @@
 import { Home, MessageCircle, Search, UserIcon, Users } from "lucide-react";
 
+/*
+
+user1 = Anya = Developer
+user2 = Anna = Painter
+user3 = Ali = Photographer
+user4 = Dylan = Singer
+user5 = Sarah = Baker
+user6 = Leo = Athlete
+user7 = Jasmine = Blogger
+
+*/
+
 export const menuItems = [
   { to: "/", label: "Feed", Icon: Home },
   { to: "/chats", label: "Chats", Icon: MessageCircle },
   { to: "/friends", label: "Friends", Icon: Users },
-  { to: "/discover", label: "Discover", Icon: Search },
+  { to: "/explore", label: "Explore", Icon: Search },
   { to: "/profile", label: "Profile", Icon: UserIcon },
 ];
 
@@ -17,7 +29,7 @@ export const userData = {
   profile_pic:
     "https://i.pinimg.com/1200x/4b/ac/d3/4bacd354cc8936605be7e20984fc745f.jpg",
   cover_photo: "",
-  location: "San Francisco, CA, USA",
+  location: "Paris, France",
   followers: ["u2", "u3", "u4"],
   following: ["u2", "u5", "u6"],
   connections: ["u2", "u3", "u5"],
@@ -42,6 +54,7 @@ export const user2Data = {
   bio: "Painter & visual storyteller 🎨 Inspired by light, emotion, and everyday beauty. Creating art that speaks without words.",
   profile_pic:
     "https://i.pinimg.com/736x/4f/ef/40/4fef40597b2009403b548700350109c7.jpg",
+  location: "Florence, Italy",
 };
 
 export const user3Data = {
@@ -52,6 +65,7 @@ export const user3Data = {
   bio: "Photographer chasing golden hours 📸 Capturing stories through light, shadows, and spontaneous moments.",
   profile_pic:
     "https://i.pinimg.com/736x/13/c7/56/13c75665a3b6bc1ff7836f92b2064049.jpg",
+  location: "Istanbul, Turkey",
 };
 
 export const user4Data = {
@@ -62,6 +76,7 @@ export const user4Data = {
   bio: "Singer-songwriter 🎸 Turning feelings into melodies. Acoustic nights, studio sessions, and music that connects souls.",
   profile_pic:
     "https://i.pinimg.com/736x/98/9c/86/989c8675ea88cc9892c660089b63dc6c.jpg",
+  location: "Nashville, USA",
 };
 
 export const user5Data = {
@@ -72,6 +87,7 @@ export const user5Data = {
   bio: "Home baker & dessert lover 🥐 Baking happiness one recipe at a time. Flour, patience, and a little sweetness.",
   profile_pic:
     "https://i.pinimg.com/736x/5f/11/e2/5f11e2b0c0af5c71795314ab0232e41f.jpg",
+  location: "Lahore, Pakistan",
 };
 
 export const user6Data = {
@@ -82,6 +98,7 @@ export const user6Data = {
   bio: "Athlete | Marathon Runner | Discipline builds freedom 🏃‍♂️",
   profile_pic:
     "https://i.pinimg.com/736x/95/69/c7/9569c7ed1cd5ba05d86b6d51d489067c.jpg",
+  location: "Berlin, Germany",
 };
 
 export const user7Data = {
@@ -92,6 +109,7 @@ export const user7Data = {
   bio: "Lifestyle Blogger | Storyteller | Coffee & late night thoughts ☕✨",
   profile_pic:
     "https://i.pinimg.com/736x/42/b7/4c/42b74c2d949bfa432c0b947be07cb482.jpg",
+  location: "Toronto, Canada",
 };
 
 export const storyData = [
@@ -183,18 +201,6 @@ export const storyData = [
     updatedAt: "2026-02-26T20:05:00Z",
   },
 ];
-
-/*
-
-user1 = Ayman = Developer
-user2 = Anna = Painter
-user3 = Ali = Photographer
-user4 = Dylan = Singer
-user5 = Sarah = Baker
-user6 = Leo = Athlete
-user7 = Jasmine = Blogger
-
-*/
 
 export const postsData = [
   {

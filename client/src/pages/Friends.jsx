@@ -34,9 +34,6 @@ const Friends = () => {
   const activeData =
     dataArray.find((item) => item.key === activeTab)?.value || [];
 
-  console.log(activeTab);
-  console.log(activeData);
-
   return (
     <div className="friends-container">
       <div className="max-w-6xl mx-auto p-6">

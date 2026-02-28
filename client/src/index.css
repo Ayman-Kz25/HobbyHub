@@ -110,6 +110,22 @@ body {
   @apply p-2 text-sm rounded bg-gray-100 hover:bg-gray-200 active:scale-95 transition text-gray-950 cursor-pointer focus:outline-none;
 }
 
+/* Explore */
+.explore-container {
+  @apply max-h-screen bg-gradient-to-b from-gray-100 to-gray-50 overflow-y-auto;
+}
+
+.searchbar-container{
+  @apply mb-8 shadow-md rounded-md border border-gray-200/60 bg-gray-50/80;
+}
+
+.search-icon {
+  @apply absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400;
+}
+
+.search-input {
+  @apply pl-10 sm:pl-12 py-2 w-full border-2 border-gray-200 rounded-lg max-sm:text-sm focus:outline-none focus:border-[#ECC154] transition-colors duration-300 ease-in-out;
+}
 
 /* ==== Components ==== */
 /* Sidebar */
@@ -260,4 +276,15 @@ body {
   scrollbar-width: none;
 }
 
-/*  */
+/* User Card */
+.user-card {
+  @apply p-4 pt-6 flex flex-col justify-between w-80 shadow-sm border border-gray-200 rounded-lg hover:shadow-md;
+}
+
+.user-card .follow-btn {
+  @apply w-full py-2 rounded-lg flex justify-center items-center gap-2 bg-gradient-to-r from-[#ECC154] to-amber-200 hover:to-[#e0b23c] active:scale-95 transition text-gray-950 font-medium cursor-pointer focus:outline-none;
+}
+
+.user-card .request-btn {
+  @apply flex justify-center items-center w-16 border-2 border-gray-200 text-gray-500 hover:text-gray-700 hover:bg-gray-200 hover:border-transparent rounded-lg transition cursor-pointer active:scale-95 focus:outline-none;
+}
