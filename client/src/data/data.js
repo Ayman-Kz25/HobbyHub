@@ -28,7 +28,7 @@ export const userData = {
   bio: "Front-end developer by profession,💻 Designer by passion ✨ Turning ideas into interactive experiences. Side projects, clean code, and late-night debugging sessions fuel my creativity.",
   profile_pic:
     "https://i.pinimg.com/1200x/4b/ac/d3/4bacd354cc8936605be7e20984fc745f.jpg",
-  cover_photo: "",
+  cover_photo: "https://i.pinimg.com/1200x/dd/4e/c8/dd4ec84bb52866432d07c91259e2b8c3.jpg",
   location: "Paris, France",
   followers: ["u2", "u3", "u4"],
   following: ["u2", "u5", "u6"],
