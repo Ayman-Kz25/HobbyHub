@@ -14,8 +14,12 @@ const Profile = () => {
   const [showEdit, setShowEdit] = useState(false);
 
   const fetchUser = async () => {
-    setUser(userData);
-    setPosts(postsData);
+    const currentUser = userData;
+    setUser(currentUser);
+    const userPosts = postsData.filter(
+      (post) => post.user._id === currentUser._id,
+    );
+    setPosts(userPosts);
   };
 
   useEffect(() => {
@@ -107,9 +111,7 @@ const Profile = () => {
         </div>
       </div>
       {/* Edit Profile Modal */}
-      {showEdit && (
-        <p>Show Profile Edit</p>
-      )}
+      {showEdit && <p>Show Profile Edit</p>}
     </div>
   ) : (
     <Loading />
