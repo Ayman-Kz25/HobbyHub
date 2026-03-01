@@ -52,6 +52,10 @@ npm install --save-dev nodemon
 6. inngest (to manage backend workflow)
 npm install inngest
 
+7. Install Express with clerk
+npm install @clerk/express (to add middleware)
+
+
 External Stuff used:
 Clerk (for Auth)
 Mongodb (for DB)
