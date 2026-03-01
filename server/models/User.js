@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema({
     followers: [{type: String, ref: "User"}],
     following: [{type: String, ref: "User"}],
     friends: [{type: String, ref: "User"}],
-}, {timeStamps: true, minimize: false});
+}, {timestamps: true, minimize: false});
 
 
 const User = mongoose.model('User', userSchema);
