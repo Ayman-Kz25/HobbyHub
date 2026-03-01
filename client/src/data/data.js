@@ -431,3 +431,89 @@ export const pendingConnectionsData = [
     requestedAt: "2026-02-26T15:45:00Z",
   },
 ];
+
+export const messagesData = [
+  {
+    _id: "msg1",
+    conversationId: "c1",
+    sender: userData, // Anya
+    receiver: user2Data, // Anna
+    msgType: "text",
+    text: "Hey Anna! Your latest painting was beautiful 🎨",
+    media: null,
+    seen: true,
+    createdAt: "2026-02-26T18:00:00Z",
+  },
+  {
+    _id: "msg2",
+    conversationId: "c1",
+    sender: user2Data,
+    receiver: userData,
+    msgType: "text",
+    text: "Thank you so much! That means a lot 💛",
+    media: null,
+    seen: true,
+    createdAt: "2026-02-26T18:02:00Z",
+  },
+  {
+    _id: "msg3",
+    conversationId: "c1",
+    sender: user2Data,
+    receiver: userData,
+    msgType: "text",
+    text: "Would love your feedback on my next concept.",
+    media: null,
+    seen: false,
+    createdAt: "2026-02-26T18:03:00Z",
+  },
+  {
+    _id: "msg4",
+    conversationId: "c2",
+    sender: user3Data, // Ali
+    receiver: userData,
+    msgType: "text",
+    text: "Let’s build a portfolio site together 📷💻",
+    media: null,
+    seen: true,
+    createdAt: "2026-02-25T20:10:00Z",
+  },
+  {
+    _id: "msg5",
+    conversationId: "c2",
+    sender: userData,
+    receiver: user3Data,
+    msgType: "text",
+    text: "That sounds exciting! I’m in 🔥",
+    media: null,
+    seen: true,
+    createdAt: "2026-02-25T20:12:00Z",
+  },
+  {
+    _id: "msg6",
+    conversationId: "c3",
+    sender: user5Data, // Sarah
+    receiver: userData,
+    msgType: "image",
+    text: "",
+    media: {
+      type: "image",
+      url: "https://i.pinimg.com/736x/dc/b8/8e/dcb88e81f3d99ba4a793ce0dcfd96fc3.jpg",
+    },
+    seen: false,
+    createdAt: "2026-02-24T17:00:00Z",
+  },
+  {
+    _id: "msg7",
+    conversationId: "c3",
+    sender: userData,
+    receiver: user5Data,
+    msgType: "video",
+    text: "",
+    media: {
+      type: "video",
+      url: "/src/assets/video1.mp4",
+    },
+    seen: false,
+    createdAt: "2026-02-24T17:05:00Z",
+  },
+];

@@ -9,6 +9,10 @@ body {
   @apply bg-white;
 }
 
+.no-scrollbar{
+  scrollbar-width: none;
+}
+
 /* --- Login Page --- */
 .login-screen {
   @apply min-h-[100dvh] flex flex-col md:flex-row bg-cover bg-center bg-no-repeat;
@@ -142,6 +146,15 @@ body {
 
 .profile-container .tab-btn {
   @apply flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-colors cursor-pointer;
+}
+
+/* Chat Box */
+.chat-box {
+  @apply flex flex-col max-h-screen scroll-smooth;
+}
+
+.chat-top-bar {
+  @apply flex items-center gap-2 p-2 md:px-10 xl:pl-42 bg-gradient-to-r from-gray-950 to-gray-800 text-gray-50 border-b border-gray-300;
 }
 
 /* ==== Components ==== */
