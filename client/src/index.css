@@ -308,7 +308,7 @@ body {
 
 /* User Card */
 .user-card {
-  @apply p-4 pt-6 flex flex-col justify-between w-80 shadow-sm border border-gray-200 rounded-lg hover:shadow-md;
+  @apply w-full max-w-sm mx-auto p-5 flex flex-col justify-between border border-gray-50 rounded-2xl shadow-md;
 }
 
 .user-card .follow-btn {
@@ -316,7 +316,7 @@ body {
 }
 
 .user-card .request-btn {
-  @apply flex justify-center items-center w-16 border-2 border-gray-200 text-gray-500 hover:text-gray-700 hover:bg-gray-200 hover:border-transparent rounded-lg transition cursor-pointer active:scale-95 focus:outline-none;
+  @apply flex justify-center items-center w-16 border-2 border-gray-200 text-gray-500 hover:text-gray-700 hover:bg-gray-200 hover:border-transparent rounded-lg transition cursor-pointer active:scale-95 focus:outline-none py-2;
 }
 
 /* Profile Info */
@@ -330,4 +330,17 @@ body {
 
 .edit-btn {
   @apply flex items-center gap-2 border-2 border-gray-200 hover:bg-gray-100 px-4 py-2 rounded-lg font-medium transition-colors mt-4 md:mt-0 cursor-pointer;
+}
+
+/* Edit Modal */
+.cta-btn {
+  @apply flex justify-end space-x-3 pt-6;
+}
+
+.cta-btn .cancel-btn {
+  @apply px-4 py-2 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-100 transition-colors cursor-pointer focus:outline-none;
+}
+
+.cta-btn .save-btn {
+  @apply px-4 py-2 rounded-lg bg-gradient-to-r from-[#ECC154] to-amber-200 hover:to-[#e0b23c] active:scale-95 transition text-gray-950 font-medium cursor-pointer focus:outline-none;
 }

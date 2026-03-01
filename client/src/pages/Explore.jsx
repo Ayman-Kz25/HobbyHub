@@ -21,7 +21,7 @@ const Explore = () => {
   }
 
   return (
-    <div className="explore-container">
+    <div className="explore-container no-scrollbar">
       <div className="max-w-6xl mx-auto p-6">
 
         {/* Title & Subtitle */}

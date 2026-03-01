@@ -35,7 +35,7 @@ const Friends = () => {
     dataArray.find((item) => item.key === activeTab)?.value || [];
 
   return (
-    <div className="friends-container">
+    <div className="friends-container no-scrollbar">
       <div className="max-w-6xl mx-auto p-6">
         {/* Title & Subtitle */}
         <div className="mb-6 sm:mb-8">

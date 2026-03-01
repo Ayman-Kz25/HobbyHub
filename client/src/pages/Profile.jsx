@@ -5,6 +5,7 @@ import Loading from "../components/Loading";
 import ProfileInfo from "../components/ProfileInfo";
 import PostCard from "../components/PostCard";
 import moment from "moment";
+import EditModal from "../components/EditModal";
 
 const Profile = () => {
   const { profileId } = useParams();
@@ -27,7 +28,7 @@ const Profile = () => {
   }, []);
 
   return user ? (
-    <div className="profile-container">
+    <div className="profile-container no-scrollbar">
       <div className="max-w-3xl mx-auto">
         {/* Profile Card */}
         <div className="profile-card">
@@ -111,7 +112,7 @@ const Profile = () => {
         </div>
       </div>
       {/* Edit Profile Modal */}
-      {showEdit && <p>Show Profile Edit</p>}
+      {showEdit && <EditModal setShowEdit={setShowEdit}/>}
     </div>
   ) : (
     <Loading />
