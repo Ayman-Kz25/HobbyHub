@@ -27,6 +27,8 @@ const Profile = () => {
     fetchUser();
   }, []);
 
+  const likedPost = postsData.filter((post) => post.likes?.includes(user?._id));
+
   return user ? (
     <div className="profile-container no-scrollbar">
       <div className="max-w-3xl mx-auto">
@@ -109,10 +111,21 @@ const Profile = () => {
                 ))}
             </div>
           )}
+
+          {/* Likes */}
+          {activeTab === "likes" && (
+            <div className="mt-6 flex flex-col items-center gap-6">
+              {likedPost.length > 0 ? (
+                likedPost.map((post) => <PostCard key={post._id} post={post} />)
+              ) : (
+                <p className="text-gray-700">No liked posts yet!</p>
+              )}
+            </div>
+          )}
         </div>
       </div>
       {/* Edit Profile Modal */}
-      {showEdit && <EditModal setShowEdit={setShowEdit}/>}
+      {showEdit && <EditModal setShowEdit={setShowEdit} />}
     </div>
   ) : (
     <Loading />
