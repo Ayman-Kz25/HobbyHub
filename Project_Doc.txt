@@ -1,0 +1,59 @@
+Client Side
+
+Libraries Used:
+1. React With Vite
+npm create vite@latest
+npm install
+npm run dev
+
+Packages Used:
+1. Tailwind CSS (For Styling)
+npm install tailwindcss @tailwindcss/vite
+
+2. React Router DOM (For Routing)
+npm install react-router-dom
+
+3. Lucide React (For Icons)
+npm install lucide-react
+
+4. Clerk React (For Auth)
+npm install @clerk/clerk-react
+
+5. Moment (For Time)
+npm install moment
+
+6. React Hot Toast (For Toasters)
+npm install react-hot-toast
+
+Server Side
+=> setup npm
+npm init -y
+
+=> Required pkgs to create backend server
+
+1. express
+npm install express 
+
+2. cors (connect backend with frontend Urls)
+npm install cors 
+
+3. dotenv (to create environment variables)
+npm install dotenv 
+
+4. mongoose (to connect with mongodb database)
+npm install mongoose 
+
+5. multer (to parse multi-part form data)
+npm install multer
+
+
+npm install --save-dev nodemon
+
+6. inngest (to manage backend workflow)
+npm install inngest
+
+External Stuff used:
+Clerk (for Auth)
+Mongodb (for DB)
+Inngest (to build, manage, and execute reliable background jobs and complex workflows)
+
