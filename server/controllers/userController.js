@@ -1,0 +1,63 @@
+import imagekit from "../configs/imageKit.js";
+import User from "../models/user";
+import fs from "fs";
+
+// Get User Data using userId
+export const getUserData = async (req, res) => {
+  try {
+    const { userId } = req.auth();
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.json({ success: false, message: "User Not Found!" });
+    }
+    res.json({ success: true, user });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// Update User Data using userId
+export const updateUserData = async (req, res) => {
+  try {
+    const { userId } = req.auth();
+    const { user_name, bio, location, full_name } = req.body;
+
+    const tempUser = await User.findById(userId);
+
+    !user_name && (user_name = tempUser.user_name);
+
+    if (tempUser.user_name !== user_name) {
+      const user = User.findOne({ user_name });
+      if (user) {
+        user_name = tempUser.user_name;
+      }
+    }
+
+    const updatedData = {
+      user_name,
+      bio,
+      location,
+      full_name,
+    };
+
+    const profile = req.files.profile && req.files.profile[0];
+
+    const cover = req.files.cover && req.files.cover[0];
+
+    if (profile) {
+      const buffer = fs.readFileSync(profile.path);
+      const response = await imagekit.upload({
+        file: buffer,
+        fileName: profile.originalname,
+      });
+
+      const url = imagekit.url({
+        path: response.filePath,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};

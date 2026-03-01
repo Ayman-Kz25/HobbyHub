@@ -55,6 +55,10 @@ npm install inngest
 7. Install Express with clerk
 npm install @clerk/express (to add middleware)
 
+8. Imagekit (for Media Optimization and API)
+npm install @imagekit/nodejs
+npm install imagekit --save
+
 
 External Stuff used:
 Clerk (for Auth)
