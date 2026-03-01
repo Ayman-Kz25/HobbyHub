@@ -5,7 +5,7 @@ const connectDB = async () => {
     mongoose.connection.on("connected", () =>
       console.log("database connected!"),
     );
-    await mongoose.connect(`${process.env.MONGODB_URI}/hobbyhub`);
+    await mongoose.connect(`${process.env.MONGODB_URL}/hobbyhub`);
   } catch (error) {
     console.log(error.message);
   }
