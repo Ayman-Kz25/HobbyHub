@@ -57,11 +57,15 @@ npm install @clerk/express (to add middleware)
 
 8. Imagekit (for Media Optimization and API)
 npm install @imagekit/nodejs
-npm install imagekit --save
+npm install imagekit --save (depricated)
+
+9. Nodemailer (for sending emails)
+npm install nodemailer
 
 
 External Stuff used:
 Clerk (for Auth)
 Mongodb (for DB)
 Inngest (to build, manage, and execute reliable background jobs and complex workflows)
+NodeMailer (for email connection)
 

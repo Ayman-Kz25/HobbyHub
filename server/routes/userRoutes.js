@@ -1,8 +1,11 @@
 import express from "express";
 import {
+  acceptFriendRequest,
   findUsers,
   followUsers,
+  getFriendRequest,
   getUserData,
+  sendFriendRequest,
   unfollowUsers,
   updateUserData,
 } from "../controllers/userController.js";
@@ -24,5 +27,8 @@ userRouter.post(
 userRouter.post("/find", protect, findUsers);
 userRouter.post("/follow", protect, followUsers);
 userRouter.post("/unfollow", protect, unfollowUsers);
+userRouter.post("/add", protect, sendFriendRequest);
+userRouter.post("/accept", protect, acceptFriendRequest);
+userRouter.get("/pending", protect, getFriendRequest);
 
 export default userRouter;

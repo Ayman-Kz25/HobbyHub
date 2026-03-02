@@ -245,7 +245,6 @@ export const getFriendRequest = async (req, res) => {
     ).map((friend) => friend.sender_id);
 
     res.json({ success: true, friends, followers, following });
-
   } catch (error) {
     console.log(error);
     res.json({ success: false, messgae: error.message });
@@ -256,22 +255,29 @@ export const getFriendRequest = async (req, res) => {
 export const acceptFriendRequest = async (req, res) => {
   try {
     const { userId } = req.auth();
-    const user = await User.findById(userId).populate(
-      "friends followers following",
-    );
+    const { id } = req.body;
 
-    const friends = user.friends;
-    const followers = user.followers;
-    const following = user.following;
+    const friend = await Friends.findOne({
+      sender_id: id,
+      receiver_id: userId,
+    });
 
-    const pendingRequests = (
-      await Friends.find({ receiver_id: userId, status: "pending" }).populate(
-        "sender_id",
-      )
-    ).map((friend) => friend.sender_id);
+    if (!friend) {
+      return res.json({ success: false, message: "Friend not found!" });
+    }
 
-    res.json({ success: true, friends, followers, following });
+    const user = await User.findById(userId);
+    user.friends.push(id);
+    await user.save();
 
+    const toUser = await User.findById(id);
+    toUser.friends.push(userId);
+    await toUser.save();
+
+    friend.status = "accepted";
+    await friend.save();
+
+    return res.json({ success: true, message: "Friend request accepted" });
   } catch (error) {
     console.log(error);
     res.json({ success: false, messgae: error.message });
