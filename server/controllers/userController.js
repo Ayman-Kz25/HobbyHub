@@ -29,7 +29,7 @@ export const updateUserData = async (req, res) => {
     !user_name && (user_name = tempUser.user_name);
 
     if (tempUser.user_name !== user_name) {
-      const user = await User.findOne({user_name});
+      const user = await User.findOne({ user_name });
       if (user) {
         user_name = tempUser.user_name;
       }
@@ -180,54 +180,100 @@ export const unfollowUsers = async (req, res) => {
 //Send Friend Request
 export const sendFriendRequest = async (req, res) => {
   try {
-    const {userId} = req.auth();
-    const {id} = req.body;
+    const { userId } = req.auth();
+    const { id } = req.body;
 
     //can send only 20 req within 24 hours
     const last24hrs = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
     const friendRequests = await Friends.find({
-      sender_id: userId, createdAt: {$gt: last24hrs}
-    })
+      sender_id: userId,
+      createdAt: { $gt: last24hrs },
+    });
 
-    if(friendRequests.length >= 20){
-      return res.json({success: false, message: 'You can send 20 requests within 24 hours!'});
+    if (friendRequests.length >= 20) {
+      return res.json({
+        success: false,
+        message: "You can send 20 requests within 24 hours!",
+      });
     }
 
     //check if user is already friend
     const friend = await Friends.findOne({
       $or: [
-        {sender_id: userId, receiver_id: id},
-        {sender_id: id, receiver_id: userId},
-      ]
+        { sender_id: userId, receiver_id: id },
+        { sender_id: id, receiver_id: userId },
+      ],
     });
 
-    if(!friend){
+    if (!friend) {
       await Friends.create({
         sender_id: userId,
-        receiver_id: id
-      })
-      return res.json({success: true, message: 'Friend request sent'});
-    } else if(friend && friend.status === 'accepted'){
-       return res.json({success: false, message: 'Already added to your friend list!'});
+        receiver_id: id,
+      });
+      return res.json({ success: true, message: "Friend request sent" });
+    } else if (friend && friend.status === "accepted") {
+      return res.json({
+        success: false,
+        message: "Already added to your friend list!",
+      });
     }
 
-    return res.json({success: false, message: 'Friend request pending!'});
+    return res.json({ success: false, message: "Friend request pending!" });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, messgae: error.message });
+  }
+};
+
+//Get Friend Requests
+export const getFriendRequest = async (req, res) => {
+  try {
+    const { userId } = req.auth();
+    const user = await User.findById(userId).populate(
+      "friends followers following",
+    );
+
+    const friends = user.friends;
+    const followers = user.followers;
+    const following = user.following;
+
+    const pendingRequests = (
+      await Friends.find({ receiver_id: userId, status: "pending" }).populate(
+        "sender_id",
+      )
+    ).map((friend) => friend.sender_id);
+
+    res.json({ success: true, friends, followers, following });
 
   } catch (error) {
-    console.log(error)
-    res.json({success: false, messgae: error.message});
+    console.log(error);
+    res.json({ success: false, messgae: error.message });
   }
-}
+};
 
-//Accept Friend Requests
+// Accept Friend Request
 export const acceptFriendRequest = async (req, res) => {
   try {
-    const {userId} = req.auth();
-    const user = await User.findById(userId).populate('friends followers following');
+    const { userId } = req.auth();
+    const user = await User.findById(userId).populate(
+      "friends followers following",
+    );
+
+    const friends = user.friends;
+    const followers = user.followers;
+    const following = user.following;
+
+    const pendingRequests = (
+      await Friends.find({ receiver_id: userId, status: "pending" }).populate(
+        "sender_id",
+      )
+    ).map((friend) => friend.sender_id);
+
+    res.json({ success: true, friends, followers, following });
 
   } catch (error) {
-    console.log(error)
-    res.json({success: false, messgae: error.message});
+    console.log(error);
+    res.json({ success: false, messgae: error.message });
   }
-}
+};
