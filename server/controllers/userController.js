@@ -28,7 +28,7 @@ export const updateUserData = async (req, res) => {
     !user_name && (user_name = tempUser.user_name);
 
     if (tempUser.user_name !== user_name) {
-      const user = User({ user_name });
+      const user = await User.findOne({user_name});
       if (user) {
         user_name = tempUser.user_name;
       }
