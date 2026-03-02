@@ -1,5 +1,5 @@
 import imagekit from "../configs/imageKit.js";
-import User from "../models/user";
+import User from "../models/User.js";
 import fs from "fs";
 
 // Get User Data using userId
@@ -21,14 +21,14 @@ export const getUserData = async (req, res) => {
 export const updateUserData = async (req, res) => {
   try {
     const { userId } = req.auth();
-    const { user_name, bio, location, full_name } = req.body;
+    let { user_name, bio, location, full_name } = req.body;
 
     const tempUser = await User.findById(userId);
 
     !user_name && (user_name = tempUser.user_name);
 
     if (tempUser.user_name !== user_name) {
-      const user = User.findOne({ user_name });
+      const user = User({ user_name });
       if (user) {
         user_name = tempUser.user_name;
       }
@@ -46,46 +46,54 @@ export const updateUserData = async (req, res) => {
     const cover = req.files.cover && req.files.cover[0];
 
     if (profile) {
-      const buffer = fs.readFileSync(profile.path);
-      const response = await imagekit.upload({
-        file: buffer,
+      const response = await imagekit.files.upload({
+        file: fs.createReadStream(profile.path),
         fileName: profile.originalname,
       });
 
-      const url = imagekit.url({
-        path: response.filePath,
+      const url = imagekit.helper.buildSrc({
+        urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
+        src: response.filePath,
         transformation: [
-          {quality: 'auto'},
-          {format: 'webp'},
-          {width: '512'},
-        ]
+          {
+            width: 512,
+            quality: 80,
+            format: "webp",
+          },
+        ],
       });
 
       updatedData.profile_pic = url;
+
+      fs.unlinkSync(profile.path);
     }
 
     if (cover) {
-      const buffer = fs.readFileSync(cover.path);
-      const response = await imagekit.upload({
-        file: buffer,
+      const response = await imagekit.files.upload({
+        file: fs.createReadStream(cover.path),
         fileName: cover.originalname,
       });
 
-      const url = imagekit.url({
-        path: response.filePath,
+      const url = imagekit.helper.buildSrc({
+        urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
+        src: response.filePath,
         transformation: [
-          {quality: 'auto'},
-          {format: 'webp'},
-          {width: '1280'},
-        ]
+          { 
+            quality: "auto", 
+            format: "webp", 
+            width: "1280" 
+          }
+        ],
       });
       updatedData.cover_photo = url;
+      fs.unlinkSync(cover.path);
     }
 
-    const user = await User.findByIdAndUpdate(userId, updatedData, {new: true});
+    const user = await User.findByIdAndUpdate(userId, updatedData, {
+      new: true,
+    });
 
-    res.json({success: true, user, message: 'Profile updated successfully!'});
-
+    res.json({ success: true, user, message: "Profile updated successfully!" });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
@@ -96,21 +104,18 @@ export const updateUserData = async (req, res) => {
 export const findUsers = async (req, res) => {
   try {
     const { userId } = req.auth();
-    const {input} = req.body;
+    const { input } = req.body;
 
-    const allUsers = await User.find(
-      {
-        $or: [
-          {user_name: new RegExp(input, 'i')},
-          {email: new RegExp(input, 'i')},
-          {full_name: new RegExp(input, 'i')},
-          {location: new RegExp(input, 'i')},
-        ]
-      }
-    )
+    const allUsers = await User.find({
+      $or: [
+        { user_name: new RegExp(input, "i") },
+        { email: new RegExp(input, "i") },
+        { full_name: new RegExp(input, "i") },
+        { location: new RegExp(input, "i") },
+      ],
+    });
 
-    const filteredUsers = allUsers.filter(user=>user._id !== userId);
-    
+    const filteredUsers = allUsers.filter((user) => user._id !== userId);
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
