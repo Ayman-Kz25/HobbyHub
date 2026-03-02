@@ -78,11 +78,11 @@ export const updateUserData = async (req, res) => {
         urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT,
         src: response.filePath,
         transformation: [
-          { 
-            quality: "auto", 
-            format: "webp", 
-            width: "1280" 
-          }
+          {
+            quality: "auto",
+            format: "webp",
+            width: "1280",
+          },
         ],
       });
       updatedData.cover_photo = url;
@@ -115,7 +115,61 @@ export const findUsers = async (req, res) => {
       ],
     });
 
-    const filteredUsers = allUsers.filter((user) => user._id !== userId);
+    const filteredUser = allUsers.filter((user) => user._id !== userId);
+
+    res.json({ success: true, users: filteredUser });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+//Follow User
+export const followUsers = async (req, res) => {
+  try {
+    const { userId } = req.auth();
+    const { id } = req.body;
+
+    const user = await User.findById(userId);
+
+    if (user.following.includes(id)) {
+      return res.json({
+        success: false,
+        message: "Already added to your following list",
+      });
+    }
+
+    user.following.push(id);
+    await user.save();
+
+    const toUser = await User.findById(id);
+    toUser.followers.push(userId);
+
+    await toUser.save();
+
+    res.json({ succes: true, message: "Added to your following list" });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+//Unfollow User
+export const unfollowUsers = async (req, res) => {
+  try {
+    const { userId } = req.auth();
+    const { id } = req.body;
+
+    const user = await User.findById(userId);
+
+    user.following = user.following.filter((user) => user !== id);
+    await user.save();
+
+    const toUser = await User.findById(id);
+    toUser.followers = toUser.followers.filter((user) => user !== userId);
+    await user.save();
+
+    res.json({ succes: true, message: "Removed from your following list" });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
