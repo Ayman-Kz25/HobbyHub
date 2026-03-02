@@ -54,8 +54,63 @@ export const updateUserData = async (req, res) => {
 
       const url = imagekit.url({
         path: response.filePath,
+        transformation: [
+          {quality: 'auto'},
+          {format: 'webp'},
+          {width: '512'},
+        ]
       });
+
+      updatedData.profile_pic = url;
     }
+
+    if (cover) {
+      const buffer = fs.readFileSync(cover.path);
+      const response = await imagekit.upload({
+        file: buffer,
+        fileName: cover.originalname,
+      });
+
+      const url = imagekit.url({
+        path: response.filePath,
+        transformation: [
+          {quality: 'auto'},
+          {format: 'webp'},
+          {width: '1280'},
+        ]
+      });
+      updatedData.cover_photo = url;
+    }
+
+    const user = await User.findByIdAndUpdate(userId, updatedData, {new: true});
+
+    res.json({success: true, user, message: 'Profile updated successfully!'});
+
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// Find users using username, email, location, name
+export const findUsers = async (req, res) => {
+  try {
+    const { userId } = req.auth();
+    const {input} = req.body;
+
+    const allUsers = await User.find(
+      {
+        $or: [
+          {user_name: new RegExp(input, 'i')},
+          {email: new RegExp(input, 'i')},
+          {full_name: new RegExp(input, 'i')},
+          {location: new RegExp(input, 'i')},
+        ]
+      }
+    )
+
+    const filteredUsers = allUsers.filter(user=>user._id !== userId);
+    
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
