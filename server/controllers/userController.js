@@ -219,3 +219,15 @@ export const sendFriendRequest = async (req, res) => {
     res.json({success: false, messgae: error.message});
   }
 }
+
+//Accept Friend Requests
+export const acceptFriendRequest = async (req, res) => {
+  try {
+    const {userId} = req.auth();
+    const user = await User.findById(userId).populate('friends followers following');
+
+  } catch (error) {
+    console.log(error)
+    res.json({success: false, messgae: error.message});
+  }
+}
