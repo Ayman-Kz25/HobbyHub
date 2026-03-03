@@ -1,6 +1,6 @@
 import { Inngest } from "inngest";
 import User from "../models/User.js";
-import Friends from "../models/Friends.js";
+import Friend from "../models/Friend.js";
 import sendMail from "../configs/nodeMailer.js";
 
 // Create a client to send and receive events
@@ -70,7 +70,7 @@ const sendNewFriendRequestRemainder = inngest.createFunction(
     const { friendId } = event.data;
 
     await step.run("send-friend-request-mail", async () => {
-      const friend = await Friends.findById(friendId).populate(
+      const friend = await Friend.findById(friendId).populate(
         "sender_id receiver_id",
       );
 
@@ -152,7 +152,7 @@ const sendNewFriendRequestRemainder = inngest.createFunction(
     const pendingWithin24Hrs = new Date(Date.now()+24*60*60*1000);
     await step.sleepUntil("wait-for-24-hours", pendingWithin24Hrs);
     await step.run("send-friend-request-remainder", async () => {
-      const friend = await Friends.findById(friendId).populate('sender_id receiver_id');
+      const friend = await Friend.findById(friendId).populate('sender_id receiver_id');
 
       if(friend.status === "accepted"){
         return {message: "Already accepted"}

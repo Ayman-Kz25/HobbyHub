@@ -1,5 +1,5 @@
 import imagekit from "../configs/imageKit.js";
-import Friends from "../models/Friends.js";
+import Friend from "../models/Friend.js";
 import User from "../models/User.js";
 import fs from "fs";
 
@@ -186,7 +186,7 @@ export const sendFriendRequest = async (req, res) => {
     //can send only 20 req within 24 hours
     const last24hrs = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-    const friendRequests = await Friends.find({
+    const friendRequests = await Friend.find({
       sender_id: userId,
       createdAt: { $gt: last24hrs },
     });
@@ -199,7 +199,7 @@ export const sendFriendRequest = async (req, res) => {
     }
 
     //check if user is already friend
-    const friend = await Friends.findOne({
+    const friend = await Friend.findOne({
       $or: [
         { sender_id: userId, receiver_id: id },
         { sender_id: id, receiver_id: userId },
@@ -207,7 +207,7 @@ export const sendFriendRequest = async (req, res) => {
     });
 
     if (!friend) {
-      await Friends.create({
+      await Friend.create({
         sender_id: userId,
         receiver_id: id,
       });
@@ -231,20 +231,20 @@ export const getFriendRequest = async (req, res) => {
   try {
     const { userId } = req.auth();
     const user = await User.findById(userId).populate(
-      "friends followers following",
+      "Friend followers following",
     );
 
-    const friends = user.friends;
+    const Friend = user.friends;
     const followers = user.followers;
     const following = user.following;
 
     const pendingRequests = (
-      await Friends.find({ receiver_id: userId, status: "pending" }).populate(
+      await Friend.find({ receiver_id: userId, status: "pending" }).populate(
         "sender_id",
       )
     ).map((friend) => friend.sender_id);
 
-    res.json({ success: true, friends, followers, following });
+    res.json({ success: true, Friend, followers, following });
   } catch (error) {
     console.log(error);
     res.json({ success: false, messgae: error.message });
@@ -257,7 +257,7 @@ export const acceptFriendRequest = async (req, res) => {
     const { userId } = req.auth();
     const { id } = req.body;
 
-    const friend = await Friends.findOne({
+    const friend = await Friend.findOne({
       sender_id: id,
       receiver_id: userId,
     });
@@ -267,11 +267,11 @@ export const acceptFriendRequest = async (req, res) => {
     }
 
     const user = await User.findById(userId);
-    user.friends.push(id);
+    user.Friend.push(id);
     await user.save();
 
     const toUser = await User.findById(id);
-    toUser.friends.push(userId);
+    toUser.Friend.push(userId);
     await toUser.save();
 
     friend.status = "accepted";
