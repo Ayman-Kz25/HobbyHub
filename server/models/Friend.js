@@ -1,12 +1,15 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
-const {Schema} = mongoose;
-const friendSchema = new Schema({
-    sender_id: {type: String, ref: 'User', required: true},
-    receiver_id: {type: String, ref: 'User', required: true},
-    status: {type: String, enum: ['pending', 'accepted'], default: 'pending'},
-}, {timestamps: true});
+const { Schema } = mongoose;
+const friendSchema = new Schema(
+  {
+    sender_id: { type: String, ref: "User", required: true },
+    receiver_id: { type: String, ref: "User", required: true },
+    status: { type: String, enum: ["pending", "accepted"], default: "pending" },
+  },
+  { timestamps: true },
+);
 
-const Friend = mongoose.model('Friend', friendSchema);
+const Friend = mongoose.model("Friend", friendSchema);
 
 export default Friend;
