@@ -1,5 +1,7 @@
 import { Inngest } from "inngest";
 import User from "../models/User.js";
+import Friends from "../models/Friends.js";
+import sendMail from "../configs/nodeMailer.js";
 
 // Create a client to send and receive events
 export const inngest = new Inngest({ id: "hobbyhub-app" });
@@ -60,5 +62,187 @@ const syncUserDeletion = inngest.createFunction(
   },
 );
 
+//Ingest function to send remainder when new friend is added
+const sendNewFriendRequestRemainder = inngest.createFunction(
+  { id: "send-new-friend-request-remainder" },
+  { event: "app/friend-request" },
+  async ({ event, step }) => {
+    const { friendId } = event.data;
+
+    await step.run("send-friend-request-mail", async () => {
+      const friend = await Friends.findById(friendId).populate(
+        "sender_id receiver_id",
+      );
+
+      const subject = "You’ve received a new friend request on HobbyHub 🤝";
+
+      const body = `
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>New Friend Request</title>
+  </head>
+  <body style="margin:0; padding:0; background-color:#f4f6f8; font-family:Arial, sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 0;">
+      <tr>
+        <td align="center">
+          <table width="500" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:12px; padding:30px; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+            
+            <tr>
+              <td align="center" style="padding-bottom:20px;">
+                <h2 style="margin:0; color:#1f2937;">HobbyHub 🤝</h2>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="color:#374151; font-size:15px; line-height:1.6;">
+                <p>Hi <strong>${friend.receiver_id.full_name}</strong>,</p>
+
+                <p>
+                  <strong>${friend.sender_id.full_name}</strong> 
+                  (@${friend.sender_id.user_name}) has sent you a friend request on HobbyHub.
+                </p>
+
+                <p>
+                  Connect to explore shared hobbies, collaborate on creative ideas, 
+                  and grow your circle of inspiration.
+                </p>
+
+                <!-- Button -->
+                <div style="text-align:center; margin:30px 0;">
+                  <a href="${process.env.FRONTEND_URL}"
+                     style="background:linear-gradient(to right,#ECC154,#e0b23c);
+                            color:#111827;
+                            padding:12px 25px;
+                            text-decoration:none;
+                            border-radius:8px;
+                            font-weight:600;
+                            display:inline-block;">
+                    View Request
+                  </a>
+                </div>
+
+                <p style="font-size:13px; color:#6b7280;">
+                  If you weren’t expecting this request, you can safely ignore this email.
+                </p>
+
+                <p style="margin-top:30px;">
+                  Warm regards,<br/>
+                  <strong>The HobbyHub Team</strong>
+                </p>
+              </td>
+            </tr>
+
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+`;
+
+      await sendMail({
+        to: friend.receiver_id.email,
+        subject,
+        body,
+      });
+    });
+
+    const pendingWithin24Hrs = new Date(Date.now()+24*60*60*1000);
+    await step.sleepUntil("wait-for-24-hours", pendingWithin24Hrs);
+    await step.run("send-friend-request-remainder", async () => {
+      const friend = await Friends.findById(friendId).populate('sender_id receiver_id');
+
+      if(friend.status === "accepted"){
+        return {message: "Already accepted"}
+      }
+
+      const subject = "You’ve received a new friend request on HobbyHub 🤝";
+
+      const body = `
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>New Friend Request</title>
+  </head>
+  <body style="margin:0; padding:0; background-color:#f4f6f8; font-family:Arial, sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 0;">
+      <tr>
+        <td align="center">
+          <table width="500" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:12px; padding:30px; box-shadow:0 4px 12px rgba(0,0,0,0.05);">
+            
+            <tr>
+              <td align="center" style="padding-bottom:20px;">
+                <h2 style="margin:0; color:#1f2937;">HobbyHub 🤝</h2>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="color:#374151; font-size:15px; line-height:1.6;">
+                <p>Hi <strong>${friend.receiver_id.full_name}</strong>,</p>
+
+                <p>
+                  <strong>${friend.sender_id.full_name}</strong> 
+                  (@${friend.sender_id.user_name}) has sent you a friend request on HobbyHub.
+                </p>
+
+                <p>
+                  Connect to explore shared hobbies, collaborate on creative ideas, 
+                  and grow your circle of inspiration.
+                </p>
+
+                <!-- Button -->
+                <div style="text-align:center; margin:30px 0;">
+                  <a href="${process.env.FRONTEND_URL}"
+                     style="background:linear-gradient(to right,#ECC154,#e0b23c);
+                            color:#111827;
+                            padding:12px 25px;
+                            text-decoration:none;
+                            border-radius:8px;
+                            font-weight:600;
+                            display:inline-block;">
+                    View Request
+                  </a>
+                </div>
+
+                <p style="font-size:13px; color:#6b7280;">
+                  If you weren’t expecting this request, you can safely ignore this email.
+                </p>
+
+                <p style="margin-top:30px;">
+                  Warm regards,<br/>
+                  <strong>The HobbyHub Team</strong>
+                </p>
+              </td>
+            </tr>
+
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+`;
+
+      await sendMail({
+        to: friend.receiver_id.email,
+        subject,
+        body,
+      });
+
+      return {message: "Remainder sent"}
+
+    })
+
+  },
+);
+
 // Create an empty array where we'll export future Inngest functions
-export const functions = [syncUserCreation, syncUserUpdation, syncUserDeletion];
+export const functions = [
+  syncUserCreation, 
+  syncUserUpdation, 
+  syncUserDeletion,
+  sendNewFriendRequestRemainder
+];
