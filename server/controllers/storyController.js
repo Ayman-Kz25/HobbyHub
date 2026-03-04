@@ -2,6 +2,7 @@ import fs from "fs";
 import imagekit from "../configs/imageKit.js";
 import Story from "../models/Story.js";
 import User from "../models/User.js";
+import { inngest } from "../inngest/index.js";
 
 //Add User Story
 export const addUserStory = async (req, res) => {
@@ -33,6 +34,12 @@ export const addUserStory = async (req, res) => {
       bg_clr,
     });
 
+    //Schedule story deletion after 24 hours
+    await inngest.send({
+      name: "app/story.delete",
+      data: { storyId: story._id },
+    });
+
     res.json({ success: true });
   } catch (error) {
     console.log(error);
@@ -55,7 +62,7 @@ export const getStories = async (req, res) => {
       .populate("user")
       .sort({ createdAt: -1 });
 
-    res.json({success: true, stories})
+    res.json({ success: true, stories });
   } catch (error) {
     console.log(error);
     res.json({ success: false, messgae: error.message });

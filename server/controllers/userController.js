@@ -1,4 +1,5 @@
 import imagekit from "../configs/imageKit.js";
+import { inngest } from "../inngest/index.js";
 import Friend from "../models/Friend.js";
 import Post from "../models/Post.js";
 import User from "../models/User.js";
@@ -208,10 +209,16 @@ export const sendFriendRequest = async (req, res) => {
     });
 
     if (!friend) {
-      await Friend.create({
+      const newFriend = await Friend.create({
         sender_id: userId,
         receiver_id: id,
       });
+
+      await inngest.send({
+        name: "app/friend-request",
+        data: { friendId: newFriend._id },
+      });
+
       return res.json({ success: true, message: "Friend request sent" });
     } else if (friend && friend.status === "accepted") {
       return res.json({
