@@ -16,6 +16,6 @@ const postSchema = new Schema(
   { timestamps: true, minimize: false },
 );
 
-const Post = mongoose.model.Post || mongoose.model("Post", postSchema);
+const Post = mongoose.model("Post", postSchema);
 
 export default Post;

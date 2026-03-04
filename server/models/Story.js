@@ -16,6 +16,6 @@ const storySchema = new Schema(
   { timestamps: true, minimize: false },
 );
 
-const Story = mongoose.model("Post", storySchema);
+const Story = mongoose.model("Story", storySchema);
 
 export default Story;
