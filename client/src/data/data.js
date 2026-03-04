@@ -22,7 +22,7 @@ export const menuItems = [
 
 export const userData = {
   _id: "u1",
-  email: "ayman.kz@example.com",
+  email: "anya.khan@example.com",
   full_name: "Anya Khan",
   user_name: "anyakhan",
   bio: "Front-end developer by profession,💻 Designer by passion ✨ Turning ideas into interactive experiences. Side projects, clean code, and late-night debugging sessions fuel my creativity.",

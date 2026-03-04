@@ -7,6 +7,6 @@ const postRouter = express.Router()
 
 postRouter.post('/add', upload.array('media', 4), protect, addPost)
 postRouter.get('/feed', protect, getFeedPosts);
-postRouter.get('/like', protect, likePost);
+postRouter.post('/like', protect, likePost);
 
 export default postRouter
