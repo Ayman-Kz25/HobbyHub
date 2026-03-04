@@ -1,5 +1,6 @@
 import imagekit from "../configs/imageKit.js";
 import Friend from "../models/Friend.js";
+import Post from "../models/Post.js";
 import User from "../models/User.js";
 import fs from "fs";
 
@@ -234,7 +235,7 @@ export const getFriendRequest = async (req, res) => {
       "Friend followers following",
     );
 
-    const Friend = user.friends;
+    const friend = user.friends;
     const followers = user.followers;
     const following = user.following;
 
@@ -244,7 +245,7 @@ export const getFriendRequest = async (req, res) => {
       )
     ).map((friend) => friend.sender_id);
 
-    res.json({ success: true, Friend, followers, following });
+    res.json({ success: true, friend, followers, following });
   } catch (error) {
     console.log(error);
     res.json({ success: false, messgae: error.message });
@@ -267,17 +268,38 @@ export const acceptFriendRequest = async (req, res) => {
     }
 
     const user = await User.findById(userId);
-    user.Friend.push(id);
+    user.friends.push(id);
     await user.save();
 
     const toUser = await User.findById(id);
-    toUser.Friend.push(userId);
+    toUser.friends.push(userId);
     await toUser.save();
 
     friend.status = "accepted";
     await friend.save();
 
     return res.json({ success: true, message: "Friend request accepted" });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, messgae: error.message });
+  }
+};
+
+// Get User Profiles
+export const getUserProfiles = async (req, res) => {
+  try {
+    const { profileId } = req.body;
+    const profile = await User.findById(profileId);
+
+    if (!profile) {
+      return res.json({ success: false, messgae: "Profile not found!" });
+    }
+
+    const posts = await Post.find({
+      user: profileId,
+    }).populate("user");
+
+    res.json({ success: true, profile, posts });
   } catch (error) {
     console.log(error);
     res.json({ success: false, messgae: error.message });

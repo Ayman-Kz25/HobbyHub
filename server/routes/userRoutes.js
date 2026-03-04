@@ -5,6 +5,7 @@ import {
   followUsers,
   getFriendRequest,
   getUserData,
+  getUserProfiles,
   sendFriendRequest,
   unfollowUsers,
   updateUserData,
@@ -30,5 +31,6 @@ userRouter.post("/unfollow", protect, unfollowUsers);
 userRouter.post("/connect", protect, sendFriendRequest);
 userRouter.post("/accept", protect, acceptFriendRequest);
 userRouter.get("/pending", protect, getFriendRequest);
+userRouter.post("/profiles", getUserProfiles);
 
 export default userRouter;
