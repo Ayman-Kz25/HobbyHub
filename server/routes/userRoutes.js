@@ -12,6 +12,7 @@ import {
 } from "../controllers/userController.js";
 import { protect } from "../middlewares/auth.js";
 import { upload } from "../configs/multer.js";
+import { getRecentMsgs } from "../controllers/chatController.js";
 
 const userRouter = express.Router();
 
@@ -32,5 +33,6 @@ userRouter.post("/connect", protect, sendFriendRequest);
 userRouter.post("/accept", protect, acceptFriendRequest);
 userRouter.get("/pending", protect, getFriendRequest);
 userRouter.post("/profiles", getUserProfiles);
+userRouter.get("/recent-chat", protect, getRecentMsgs);
 
 export default userRouter;

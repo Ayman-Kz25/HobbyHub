@@ -93,3 +93,47 @@ export const sendMsg = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
+//Get Chat Msgs
+export const getChatMsgs = async (req, res) => {
+  try {
+    const { userId } = req.auth();
+    const { to_user_id } = req.body;
+
+    const msgs = await Chat.find({
+      $or: [
+        { sender_id: userId, reciever_id },
+        { sender_id: to_user_id, userId },
+      ],
+    }).sort({ createdAt: -1 });
+
+    // Mark Msgs as seen
+    await Chat.updateMany(
+      {
+        sender_id: to_user_id,
+        reciever_id: userId,
+      },
+      { seen: true },
+    );
+
+    res.json({ success: true, msgs });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// Get Recent Msgs
+export const getRecentMsgs = async (req, res) => {
+  try {
+    const { userId } = req.auth();
+    const msgs = await Chat.find({ reciever_id: userId })
+      .populate("sender_id reciever_id")
+      .sort({ createdAt: -1 });
+
+    res.json({ success: false, msgs });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
