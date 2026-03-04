@@ -3,6 +3,7 @@ import User from "../models/User.js";
 import Friend from "../models/Friend.js";
 import sendMail from "../configs/nodeMailer.js";
 import Story from "../models/Story.js";
+import Chat from "../models/Chat.js";
 
 // Create a client to send and receive events
 export const inngest = new Inngest({ id: "hobbyhub-app" });
@@ -256,11 +257,48 @@ const deleteStory = inngest.createFunction(
   },
 );
 
+// send unseen msgs notifications
+const sendUnseenMsgsNotification = inngest.createFunction(
+  { id: "send-unseen-msgs-notification" },
+  { cron: "TZ=America/New_York 0 9 * * *" }, //Everyday at 9AM
+  async ({ step }) => {
+    const msgs = await Chat.find({
+      seen: false,
+    }).populate("reciever_id");
+
+    const unseen_count = {};
+
+    msgs.map((msg) => {
+      unseen_count[msg.reciever_id._id] =
+        (unseen_count[msg.reciever_id._id] || 0) + 1;
+    });
+
+    for (const userId in unseen_count) {
+      const user = await User.findById(userId);
+
+      const subject = `📫 You have ${unseen_count} unseen messages from ${user.full_name}`;
+
+      const body = `
+        
+      `
+
+      await sendMail({
+        to: user.email,
+        subject,
+        body
+      });
+
+
+      return {message: 'Notification sent!'};
+    }
+  },
+);
+
 // Create an empty array where we'll export future Inngest functions
 export const functions = [
   syncUserCreation,
   syncUserUpdation,
   syncUserDeletion,
   sendNewFriendRequestRemainder,
-  deleteStory
+  deleteStory,
 ];
