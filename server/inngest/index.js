@@ -260,7 +260,7 @@ const deleteStory = inngest.createFunction(
 // send unseen msgs notifications
 const sendUnseenMsgsNotification = inngest.createFunction(
   { id: "send-unseen-msgs-notification" },
-  { cron: "TZ=America/New_York 0 9 * * *" }, //Everyday at 9AM
+  { cron: "TZ=Asia/Karachi 0 9 * * *" }, //Everyday at 9AM Pakistan time
   async ({ step }) => {
     const msgs = await Chat.find({
       seen: false,
@@ -276,20 +276,41 @@ const sendUnseenMsgsNotification = inngest.createFunction(
     for (const userId in unseen_count) {
       const user = await User.findById(userId);
 
-      const subject = `📫 You have ${unseen_count} unseen messages from ${user.full_name}`;
+      const count = unseen_count[userId];
+
+      const subject = `📩 ${count} unread message${count > 1 ? "s" : ""} waiting for you on HobbyHub`;
+
+      const now = new Date().toLocaleString("en-PK", {
+        timeZone: "Asia/Karachi",
+        dateStyle: "full",
+        timeStyle: "short",
+      });
 
       const body = `
-        
-      `
+<div style="font-family: Arial, sans-serif; background:#f4f6f8; padding:24px; color:#333;">
+  <p>Hi ${user.full_name},</p>
+
+  <p>
+    You have <strong>${count}</strong> unread message${count > 1 ? "s" : ""} waiting for you on HobbyHub.
+  </p>
+
+  <p>
+    Log in to your account to check your messages and continue the conversation.
+  </p>
+
+  <p>
+    Sent on ${now} (Pakistan Standard Time)
+  </p>
+</div>
+`;
 
       await sendMail({
         to: user.email,
         subject,
-        body
+        body,
       });
 
-
-      return {message: 'Notification sent!'};
+      return { message: "Notification sent!" };
     }
   },
 );
