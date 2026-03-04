@@ -2,6 +2,7 @@ import { Inngest } from "inngest";
 import User from "../models/User.js";
 import Friend from "../models/Friend.js";
 import sendMail from "../configs/nodeMailer.js";
+import Story from "../models/Story.js";
 
 // Create a client to send and receive events
 export const inngest = new Inngest({ id: "hobbyhub-app" });
@@ -149,13 +150,15 @@ const sendNewFriendRequestRemainder = inngest.createFunction(
       });
     });
 
-    const pendingWithin24Hrs = new Date(Date.now()+24*60*60*1000);
+    const pendingWithin24Hrs = new Date(Date.now() + 24 * 60 * 60 * 1000);
     await step.sleepUntil("wait-for-24-hours", pendingWithin24Hrs);
     await step.run("send-friend-request-remainder", async () => {
-      const friend = await Friend.findById(friendId).populate('sender_id receiver_id');
+      const friend = await Friend.findById(friendId).populate(
+        "sender_id receiver_id",
+      );
 
-      if(friend.status === "accepted"){
-        return {message: "Already accepted"}
+      if (friend.status === "accepted") {
+        return { message: "Already accepted" };
       }
 
       const subject = "You’ve received a new friend request on HobbyHub 🤝";
@@ -232,17 +235,32 @@ const sendNewFriendRequestRemainder = inngest.createFunction(
         body,
       });
 
-      return {message: "Remainder sent"}
+      return { message: "Remainder sent" };
+    });
+  },
+);
 
-    })
+//Ingest Function to delete the story after 24 hours
+const deleteStory = inngest.createFunction(
+  { id: "story-delete" },
+  { event: "app/story.delete" },
+  async ({ event, step }) => {
+    const { storyId } = event.data;
+    const in24hrs = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
+    await step.sleepUntil("wait-for-24-hours", in24hrs);
+    await step.run("delete-story", async () => {
+      await Story.findByIdAndDelete(storyId);
+      return { message: "Story deleted!" };
+    });
   },
 );
 
 // Create an empty array where we'll export future Inngest functions
 export const functions = [
-  syncUserCreation, 
-  syncUserUpdation, 
+  syncUserCreation,
+  syncUserUpdation,
   syncUserDeletion,
-  sendNewFriendRequestRemainder
+  sendNewFriendRequestRemainder,
+  deleteStory
 ];

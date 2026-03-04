@@ -26,15 +26,14 @@ export const addUserStory = async (req, res) => {
 
     //create story
     const story = await Story.create({
-        user: userId,
-        content,
-        media_url,
-        media_type,
-        bg_clr
-    })
+      user: userId,
+      content,
+      media_url,
+      media_type,
+      bg_clr,
+    });
 
-    res.json({success: true});
-
+    res.json({ success: true });
   } catch (error) {
     console.log(error);
     res.json({ success: false, messgae: error.message });
@@ -46,7 +45,17 @@ export const getStories = async (req, res) => {
   try {
     const { userId } = req.auth();
     const user = await User.findById(userId);
-    
+
+    //user friends and following
+    const userIds = [userId, ...user.friends, ...user.following];
+
+    const stories = await Story.find({
+      user: { $in: userIds },
+    })
+      .populate("user")
+      .sort({ createdAt: -1 });
+
+    res.json({success: true, stories})
   } catch (error) {
     console.log(error);
     res.json({ success: false, messgae: error.message });
