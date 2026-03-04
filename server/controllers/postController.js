@@ -39,7 +39,7 @@ export const addPost = async (req, res) => {
                   {
                     quality: "auto",
                     format: "webp",
-                    width: 1280,
+                    width: '1280',
                   },
                 ],
           });
