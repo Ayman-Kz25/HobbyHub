@@ -8,7 +8,7 @@ const postSchema = new Schema(
     media_urls: [{ type: String }],
     post_type: {
       type: String,
-      enum: ["text", "item", "text_with_media"],
+      enum: ["text", "media", "text_with_media"],
       required: true,
     },
     likes_count: [{ type: String, ref: "User" }],
