@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { userData } from "../data/data";
 import { Pencil } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../features/user/userSlice";
+import { useAuth } from "@clerk/clerk-react";
+import toast from "react-hot-toast";
 
 const EditModal = ({ setShowEdit }) => {
-  const user = userData;
+  const user = useSelector((state) => state.user.value);
   const [editForm, setEditForm] = useState({
     username: user.user_name,
     bio: user.bio,
@@ -12,9 +15,35 @@ const EditModal = ({ setShowEdit }) => {
     cover_photo: null,
     full_name: user.full_name,
   });
+  const dispatch = useDispatch();
+  const { getToken } = useAuth();
 
   const handleSaveBtn = async (e) => {
     e.preventDefault();
+    try {
+      const userData = new FormData();
+      const { full_name, username, bio, location, profile_pic, cover_photo } =
+        editForm;
+
+      userData.append("user_name", username);
+      userData.append("full_name", full_name);
+      userData.append("bio", bio);
+      userData.append("location", location);
+      profile_pic && userData.append("profile", profile_pic);
+      cover_photo && userData.append("cover", cover_photo);
+
+      const token = await getToken();
+      dispatch(
+        updateUser({
+          userData,
+          token,
+        }),
+      );
+
+      setShowEdit(false);
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
   return (
     <div className="fixed top-0 bottom-0 left-0 right-0 z-110 h-screen overflow-y-scroll bg-black/50 no-scrollbar">
@@ -24,7 +53,13 @@ const EditModal = ({ setShowEdit }) => {
             Edit Profile
           </h1>
 
-          <form action="" className="space-y-4" onSubmit={handleSaveBtn}>
+          <form
+            action=""
+            className="space-y-4"
+            onSubmit={(e) =>
+              toast.promise(handleSaveBtn(e), { loading: "Saving..." })
+            }
+          >
             {/* Profile Pic */}
             <div className="flex flex-col items-start gap-3">
               <label
@@ -97,85 +132,81 @@ const EditModal = ({ setShowEdit }) => {
 
             {/* Full Name */}
             <div>
-              <label
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Name
               </label>
-                <input
-                  type="text"
-                  className="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none"
-                  placeholder="Enter Full Name"
-                  onChange={(e) =>
-                    setEditForm({ ...editForm, full_name: e.target.value })
-                  }
-                  value={editForm.full_name}
-                />
+              <input
+                type="text"
+                className="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none"
+                placeholder="Enter Full Name"
+                onChange={(e) =>
+                  setEditForm({ ...editForm, full_name: e.target.value })
+                }
+                value={editForm.full_name}
+              />
             </div>
 
             {/* User Name */}
             <div>
-              <label
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Username
               </label>
-                <input
-                  type="text"
-                  className="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none"
-                  placeholder="Enter Username"
-                  onChange={(e) =>
-                    setEditForm({ ...editForm, username: e.target.value })
-                  }
-                  value={editForm.username}
-                />
+              <input
+                type="text"
+                className="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none"
+                placeholder="Enter Username"
+                onChange={(e) =>
+                  setEditForm({ ...editForm, username: e.target.value })
+                }
+                value={editForm.username}
+              />
             </div>
 
             {/* Bio */}
             <div>
-              <label
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Bio
               </label>
-                <textarea
-                  rows={3}
-                  className="w-full resize-none p-3 border-2 border-gray-200 rounded-lg focus:outline-none"
-                  placeholder="Enter Bio"
-                  onChange={(e) =>
-                    setEditForm({ ...editForm, bio: e.target.value })
-                  }
-                  value={editForm.bio}
-                />
+              <textarea
+                rows={3}
+                className="w-full resize-none p-3 border-2 border-gray-200 rounded-lg focus:outline-none"
+                placeholder="Enter Bio"
+                onChange={(e) =>
+                  setEditForm({ ...editForm, bio: e.target.value })
+                }
+                value={editForm.bio}
+              />
             </div>
 
             {/* Location */}
             <div>
-              <label
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Location
               </label>
-                <input
-                  type="text"
-                  className="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none"
-                  placeholder="Enter Location"
-                  onChange={(e) =>
-                    setEditForm({ ...editForm, location: e.target.value })
-                  }
-                  value={editForm.location}
-                />
+              <input
+                type="text"
+                className="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none"
+                placeholder="Enter Location"
+                onChange={(e) =>
+                  setEditForm({ ...editForm, location: e.target.value })
+                }
+                value={editForm.location}
+              />
             </div>
 
             {/* Action Btns */}
             <div className="cta-btn">
-                  <button type="button" onClick={()=>setShowEdit(false)} className="cancel-btn">
-                    Cancel
-                  </button>
-                  <button type="submit" className="save-btn">
-                    Save Changes
-                  </button>
-            </div> 
+              <button
+                type="button"
+                onClick={() => setShowEdit(false)}
+                className="cancel-btn"
+              >
+                Cancel
+              </button>
+              <button type="submit" className="save-btn">
+                Save Changes
+              </button>
+            </div>
           </form>
         </div>
       </div>

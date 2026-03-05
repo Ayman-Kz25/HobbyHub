@@ -1,8 +1,9 @@
 import { MapPin, MessageCircle, PlusCircle, UserPlus } from "lucide-react";
 import { userData } from "../data/data";
+import { useSelector } from "react-redux";
 
 const UserCard = ({ user }) => {
-  const currentUser = userData;
+  const currentUser = useSelector((state) => state.user.value);
 
   const handleFollow = async () => {};
 
@@ -37,7 +38,7 @@ const UserCard = ({ user }) => {
         </div>
       </div>
 
-        {/* Btns */}
+      {/* Btns */}
       <div className="flex flex-row mt-5 gap-2">
         {/* Follow Btn */}
         <button

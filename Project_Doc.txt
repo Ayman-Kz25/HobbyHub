@@ -25,6 +25,13 @@ npm install moment
 6. React Hot Toast (For Toasters)
 npm install react-hot-toast
 
+7. Redux & Toolkit (For State Management)
+npm install react-redux
+npm install @reduxjs/toolkit
+
+8. Axios (For API Call)
+npm install axios
+
 Server Side
 => setup npm
 npm init -y

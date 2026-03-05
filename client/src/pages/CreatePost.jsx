@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { userData } from "../data/data";
 import { Image, Video, X } from "lucide-react";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 const CreatePost = () => {
   const [content, setContent] = useState("");
   const [media, setMedia] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const user = userData;
+  const user = useSelector((state) => state.user.value);
 
   const handleSubmit = async () => {};
 
@@ -85,7 +86,7 @@ const CreatePost = () => {
                     )}
                     <button
                       className="absolute top-2 right-2 bg-black/60 hover:bg-black/80 p-1 rounded-full text-gray-50 opacity-0 group-hover:opacity-100 transition cursor-pointer"
-                      onClick={()=>removeMedia(index)}
+                      onClick={() => removeMedia(index)}
                     >
                       <X size={16} />
                     </button>
@@ -104,7 +105,7 @@ const CreatePost = () => {
               >
                 <Image size={24} />
               </label>
-      
+
               <input
                 type="file"
                 id="mediaUpload"
@@ -117,12 +118,12 @@ const CreatePost = () => {
 
             <button
               className="px-6 py-2 text-sm sm:text-base font-medium rounded-lg bg-gradient-to-r from-[#ECC154] to-amber-200 hover:to-[#e0b23c] active:scale-95 transition text-gray-950 cursor-pointer focus:outline-none disabled:opacity-60"
-              onClick={() => 
-                toast.promise(handleSubmit(),{
-                    loading: "Uploading...",
-                    success: "Post Uploade successfully!",
-                    error: "Failed to upload post",
-                  })
+              onClick={() =>
+                toast.promise(handleSubmit(), {
+                  loading: "Uploading...",
+                  success: "Post Uploade successfully!",
+                  error: "Failed to upload post",
+                })
               }
               disabled={loading}
             >

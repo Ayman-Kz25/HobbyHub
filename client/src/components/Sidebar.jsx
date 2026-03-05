@@ -3,10 +3,11 @@ import MenuItems from "./MenuItems";
 import { CirclePlus, LogOut } from "lucide-react";
 import { UserButton, useClerk } from '@clerk/clerk-react'
 import { userData } from "../data/data";
+import { useSelector } from "react-redux";
 
 const Sidebar = ({openSidebar, setOpenSidebar}) => {
   const navigate = useNavigate();
-  const user = userData;
+  const user = useSelector((state) => state.user.value);
   const {signOut} = useClerk()
   return (
     <div className={`sidebar-container ${openSidebar ? 'translate-x-0' : 'max-sm:-translate-x-full'}`}>

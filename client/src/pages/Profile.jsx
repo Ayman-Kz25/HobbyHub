@@ -6,26 +6,47 @@ import ProfileInfo from "../components/ProfileInfo";
 import PostCard from "../components/PostCard";
 import moment from "moment";
 import EditModal from "../components/EditModal";
+import { useAuth } from "@clerk/clerk-react";
+import api from "../api/axios.js";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
+  const currentUser = useSelector((state) => state.user.value);
+
+  const { getToken } = useAuth();
   const { profileId } = useParams();
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
   const [activeTab, setActiveTab] = useState("posts");
   const [showEdit, setShowEdit] = useState(false);
 
-  const fetchUser = async () => {
-    const currentUser = userData;
-    setUser(currentUser);
-    const userPosts = postsData.filter(
-      (post) => post.user._id === currentUser._id,
-    );
-    setPosts(userPosts);
+  const fetchUser = async (profileId) => {
+    const token = await getToken();
+    try {
+      const { data } = await api.post(
+        `/api/user/profiles`,
+        { profileId },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+      if (data.success) {
+        setUser(data.profile);
+        setPosts(data.posts);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   useEffect(() => {
-    fetchUser();
-  }, []);
+    if (profileId) {
+      fetchUser(profileId);
+    } else {
+      fetchUser(currentUser._id);
+    }
+  }, [profileId, currentUser]);
 
   const likedPost = postsData.filter((post) => post.likes?.includes(user?._id));
 
@@ -80,35 +101,41 @@ const Profile = () => {
           {activeTab === "media" && (
             <div className="flex items-center max-sm:justify-center flex-wrap mt-6 max-w-6xl">
               {posts
-                .filter((post) => post.media && post.media.length > 0)
-                .map((post) => (
-                  <>
-                    {post.media.map((item, index) => (
+                .filter((post) => post.media_urls && post.media_urls.length > 0)
+                .flatMap((post) =>
+                  post.media_urls.map((item, index) => {
+                    const isVideo =
+                      item.endsWith(".mp4") ||
+                      item.endsWith(".webm") ||
+                      item.endsWith(".mov");
+
+                    return (
                       <Link
                         key={`${post._id}-${index}`}
                         target="_blank"
-                        to={item.url}
+                        to={item}
                         className="relative group"
                       >
-                        {item.type === "image" ? (
-                          <img
-                            src={item.url}
-                            alt=""
-                            className="w-64 aspect-video object-cover max-sm:pb-1"
+                        {isVideo ? (
+                          <video
+                            src={item}
+                            className="w-64 rounded aspect-video object-cover max-sm:pb-1"
                           />
                         ) : (
-                          <video
-                            src={item.url}
-                            className="w-64 aspect-video object-cover max-sm:pb-1"
+                          <img
+                            src={item}
+                            alt=""
+                            className="w-64 rounded aspect-video object-cover max-sm:pb-1"
                           />
                         )}
+
                         <p className="absolute bottom-0 right-0 text-xs p-1 px-3 backdrop-blur-xl text-gray-50 opacity-0 group-hover:opacity-100 transition duration-300 rounded-sm">
                           Posted {moment(post.createdAt).fromNow()}
                         </p>
                       </Link>
-                    ))}
-                  </>
-                ))}
+                    );
+                  }),
+                )}
             </div>
           )}
 
@@ -118,7 +145,7 @@ const Profile = () => {
               {likedPost.length > 0 ? (
                 likedPost.map((post) => <PostCard key={post._id} post={post} />)
               ) : (
-                <p className="text-gray-700">No liked posts yet!</p>
+                <p className="text-gray-700 my-auto">No liked posts yet!</p>
               )}
             </div>
           )}
