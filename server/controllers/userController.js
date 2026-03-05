@@ -135,6 +135,13 @@ export const followUsers = async (req, res) => {
 
     const user = await User.findById(userId);
 
+    if (userId === id) {
+      return res.json({
+        success: false,
+        message: "You cannot follow yourself",
+      });
+    }
+
     if (user.following.includes(id)) {
       return res.json({
         success: false,
@@ -147,10 +154,9 @@ export const followUsers = async (req, res) => {
 
     const toUser = await User.findById(id);
     toUser.followers.push(userId);
-
     await toUser.save();
 
-    res.json({ succes: true, message: "Added to your following list" });
+    res.json({ success: true, message: "Added to your following list" });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
@@ -165,14 +171,16 @@ export const unfollowUsers = async (req, res) => {
 
     const user = await User.findById(userId);
 
-    user.following = user.following.filter((user) => user !== id);
+    user.following = user.following.filter((user) => user.toString() !== id);
     await user.save();
 
     const toUser = await User.findById(id);
-    toUser.followers = toUser.followers.filter((user) => user !== userId);
-    await user.save();
+    toUser.followers = toUser.followers.filter(
+      (user) => user.toString() !== userId,
+    );
+    await toUser.save();
 
-    res.json({ succes: true, message: "Removed from your following list" });
+    res.json({ success: true, message: "Removed from your following list" });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
@@ -220,6 +228,7 @@ export const sendFriendRequest = async (req, res) => {
       });
 
       return res.json({ success: true, message: "Friend request sent" });
+
     } else if (friend && friend.status === "accepted") {
       return res.json({
         success: false,
@@ -230,7 +239,7 @@ export const sendFriendRequest = async (req, res) => {
     return res.json({ success: false, message: "Friend request pending!" });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, messgae: error.message });
+    res.json({ success: false, message: error.message });
   }
 };
 
@@ -239,10 +248,10 @@ export const getFriendRequest = async (req, res) => {
   try {
     const { userId } = req.auth();
     const user = await User.findById(userId).populate(
-      "Friend followers following",
+      "friends followers following",
     );
 
-    const friend = user.friends;
+    const friends = user.friends;
     const followers = user.followers;
     const following = user.following;
 
@@ -252,10 +261,16 @@ export const getFriendRequest = async (req, res) => {
       )
     ).map((friend) => friend.sender_id);
 
-    res.json({ success: true, friend, followers, following });
+    res.json({
+      success: true,
+      friends,
+      followers,
+      following,
+      pendingRequests,
+    });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, messgae: error.message });
+    res.json({ success: false, message: error.message });
   }
 };
 
@@ -288,7 +303,7 @@ export const acceptFriendRequest = async (req, res) => {
     return res.json({ success: true, message: "Friend request accepted" });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, messgae: error.message });
+    res.json({ success: false, message: error.message });
   }
 };
 
@@ -299,7 +314,7 @@ export const getUserProfiles = async (req, res) => {
     const profile = await User.findById(profileId);
 
     if (!profile) {
-      return res.json({ success: false, messgae: "Profile not found!" });
+      return res.json({ success: false, message: "Profile not found!" });
     }
 
     const posts = await Post.find({
@@ -309,6 +324,6 @@ export const getUserProfiles = async (req, res) => {
     res.json({ success: true, profile, posts });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, messgae: error.message });
+    res.json({ success: false, message: error.message });
   }
 };

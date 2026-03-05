@@ -31,7 +31,7 @@ userRouter.post("/follow", protect, followUsers);
 userRouter.post("/unfollow", protect, unfollowUsers);
 userRouter.post("/connect", protect, sendFriendRequest);
 userRouter.post("/accept", protect, acceptFriendRequest);
-userRouter.get("/pending", protect, getFriendRequest);
+userRouter.get("/friends", protect, getFriendRequest);
 userRouter.post("/profiles", getUserProfiles);
 userRouter.get("/recent-chat", protect, getRecentMsgs);
 

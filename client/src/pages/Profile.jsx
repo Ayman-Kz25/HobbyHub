@@ -10,6 +10,7 @@ import { useAuth } from "@clerk/clerk-react";
 import api from "../api/axios.js";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
+import Post from "../../../server/models/Post.js";
 
 const Profile = () => {
   const currentUser = useSelector((state) => state.user.value);
@@ -47,8 +48,6 @@ const Profile = () => {
       fetchUser(currentUser._id);
     }
   }, [profileId, currentUser]);
-
-  const likedPost = postsData.filter((post) => post.likes?.includes(user?._id));
 
   return user ? (
     <div className="profile-container no-scrollbar">
@@ -142,8 +141,8 @@ const Profile = () => {
           {/* Likes */}
           {activeTab === "likes" && (
             <div className="mt-6 flex flex-col items-center gap-6">
-              {likedPost.length > 0 ? (
-                likedPost.map((post) => <PostCard key={post._id} post={post} />)
+              {posts.length > 0 ? (
+                posts.map((post) => <PostCard key={post._id} post={post} />)
               ) : (
                 <p className="text-gray-700 my-auto">No liked posts yet!</p>
               )}

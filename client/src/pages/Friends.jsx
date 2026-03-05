@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 
 const Friends = () => {
   const navigate = useNavigate();
-  const { friends, pendingFriends, followers, following } = useSelector(
+  const { friends, pendingRequests, followers, following } = useSelector(
     (state) => state.friends,
   );
   const { getToken } = useAuth();
@@ -27,7 +27,7 @@ const Friends = () => {
     {
       key: "pending",
       label: "Pending",
-      value: pendingFriends,
+      value: pendingRequests,
       icon: UserRoundPen,
     },
     { key: "friends", label: "Friends", value: friends, icon: UserPlus },
@@ -61,7 +61,7 @@ const Friends = () => {
 
   const acceptRequest = async (userId) => {
     try {
-      const token = getToken()
+      const token = await getToken()
       const { data } = await api.post(
         "/api/user/accept",
         { id: userId },
@@ -105,7 +105,7 @@ const Friends = () => {
         <div className="mb-8 flex flex-wrap gap-6">
           {dataArray.map((item) => (
             <div key={item.label} className="friend-count">
-              <span className="font-medium">{item.value.length}</span>
+              <span className="font-medium">{item.value?.length || 0}</span>
               <p className="text-gray-600">{item.label}</p>
             </div>
           ))}
@@ -121,7 +121,7 @@ const Friends = () => {
             >
               <item.icon size={18} />
               <span className="ml-1">{item.label}</span>
-              <span className="tab-count">{item.value.length}</span>
+              <span className="tab-count">{item.value?.length || 0}</span>
             </button>
           ))}
         </div>
@@ -130,7 +130,7 @@ const Friends = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 ">
           {activeData.length === 0 ? (
             <p className="text-gray-500 text-xl mt-6">
-              No {activeTab.toLowerCase()} yet.
+              No {activeTab.toLowerCase()} users yet.
             </p>
           ) : (
             activeData.map((item) => {
@@ -147,7 +147,6 @@ const Friends = () => {
                   />
                   <div className="text-center">
                     {" "}
-                    {/* Added centering for better aesthetics */}
                     <p className="font-medium text-gray-800">
                       {user.full_name}
                     </p>

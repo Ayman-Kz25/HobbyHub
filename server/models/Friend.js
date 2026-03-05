@@ -10,6 +10,6 @@ const friendSchema = new Schema(
   { timestamps: true },
 );
 
-const Friend = mongoose.model("Friend", friendSchema);
+const Friend = mongoose.model("Friends", friendSchema);
 
 export default Friend;

@@ -3,7 +3,7 @@ import api from "../../api/axios.js";
 
 const initialState = {
   friends: [],
-  pendingFriends: [],
+  pendingRequests: [],
   followers: [],
   following: [],
 };
@@ -14,6 +14,7 @@ export const fetchFriends = createAsyncThunk(
     const { data } = await api.get("/api/user/friends", {
       headers: { Authorization: `Bearer ${token}` },
     });
+    console.log(data)
     return data.success ? data : null;
   },
 );
@@ -21,19 +22,17 @@ export const fetchFriends = createAsyncThunk(
 const friendsSlice = createSlice({
   name: "friends",
   initialState,
-  reducers: {
-
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchFriends.fulfilled, (state, action) => {
+      if (action.payload) {
+        state.friends = action.payload.friends;
+        state.pendingRequests = action.payload.pendingRequests;
+        state.followers = action.payload.followers;
+        state.following = action.payload.following;
+      }
+    });
   },
-  extraReducers: (builder)=>{
-    builder.addCase(fetchFriends.fulfilled, (state, action)=>{
-        if(action.payload){
-            state.friends = action.payload.friends
-            state.pendingFriends = action.payload.pendingFriends
-            state.followers = action.payload.followers
-            state.following = action.payload.following
-        }
-    })
-  }
 });
 
 export default friendsSlice.reducer;
