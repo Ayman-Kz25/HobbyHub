@@ -74,7 +74,7 @@ export const getFeedPosts = async (req, res) => {
       .populate("user")
       .sort({ createdAt: -1 });
 
-    res.json({ succes: true, posts });
+    res.json({ success: true, posts });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });

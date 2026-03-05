@@ -6,20 +6,21 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const PostCard = ({ post }) => {
-
-    const [likes, setLikes] = useState(post.likes_count);
-    const currentUser = useSelector((state) => state.user.value);
-    const navigate = useNavigate()
-  const postWithHashtag = post.content.replace(
+  const [likes, setLikes] = useState(post.likes_count || []);
+  const currentUser = useSelector((state) => state.user.value);
+  const navigate = useNavigate();
+  const postWithHashtag = post.content?.replace(
     /(#\w+)/g,
-    '<span class="text-[#ecb52b]">$1</span>'
+    '<span class="text-[#ecb52b]">$1</span>',
   );
-  const handleLike = async () => {
-  }
+  const handleLike = async () => {};
   return (
     <div className="post-card">
       {/* User Info */}
-      <div className="user-info" onClick={()=>navigate('/profile/'+post.user._id)}>
+      <div
+        className="user-info"
+        onClick={() => navigate("/profile/" + post.user._id)}
+      >
         <img src={post.user.profile_pic} alt="" className="profile-pic" />
         <div>
           <div className="flex items-center space-x-1">
@@ -49,7 +50,11 @@ const PostCard = ({ post }) => {
         >
           {post.media_urls.map((item, index) => {
             const isSingle = post.media_urls.length === 1;
-            const isVideo = item.includes(".mp3") || item.includes(".mov");
+            const isVideo =
+              item.includes(".mp4") ||
+              item.includes(".mov") ||
+              item.includes(".webm") ||
+              item.includes(".mkv");
 
             return (
               <div
@@ -59,14 +64,14 @@ const PostCard = ({ post }) => {
                 }`}
               >
                 {isVideo ? (
-                  <video 
+                  <video
                     src={item}
                     controls
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <img 
-                    src={item} 
+                  <img
+                    src={item}
                     alt=""
                     className="w-full h-full object-cover"
                   />
@@ -78,23 +83,26 @@ const PostCard = ({ post }) => {
       )}
 
       {/* Actions */}
-       <div className="action-btns">
-        
+      <div className="action-btns">
         <div className="flex items-center gap-1">
-            <Heart size={18} className={`icon ${likes.includes(currentUser._id) && 'text-red-500 fill-red-500'}`} onClick={handleLike}/>
-            <span>{likes.length}</span>
+          <Heart
+            size={18}
+            className={`icon ${likes.includes(currentUser._id) && "text-red-500 fill-red-500"}`}
+            onClick={handleLike}
+          />
+          <span>{likes.length}</span>
         </div>
 
         <div className="flex items-center gap-1">
-            <MessageCircle size={18}/>
-            <span>{2}</span>
+          <MessageCircle size={18} />
+          <span>{2}</span>
         </div>
 
         <div className="flex items-center gap-1">
-            <Share2 size={18}/>
-            <span>{4}</span>
+          <Share2 size={18} />
+          <span>{4}</span>
         </div>
-      </div> 
+      </div>
     </div>
   );
 };

@@ -3,15 +3,60 @@ import { userData } from "../data/data";
 import { Image, Video, X } from "lucide-react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
+import { useAuth } from "@clerk/clerk-react";
+import api from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
 const CreatePost = () => {
+  const navigate = useNavigate();
+
   const [content, setContent] = useState("");
   const [media, setMedia] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const user = useSelector((state) => state.user.value);
 
-  const handleSubmit = async () => {};
+  const { getToken } = useAuth();
+
+  const handleSubmit = async () => {
+    if (!media.length && !content) {
+      return toast.error("Please add content or media!");
+    }
+    setLoading(true);
+
+    const postType =
+      media.length && content
+        ? "text_with_media"
+        : media.length
+          ? "media"
+          : "text";
+
+    try {
+      const formData = new FormData();
+      formData.append("content", content);
+      formData.append("post_type", postType);
+      media.map((item) => {
+        formData.append("media", item);
+      });
+
+      const token = await getToken()
+
+      const { data } = await api.post("/api/post/add", formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (data.success) {
+        navigate("/");
+      } else {
+        console.log(data.error);
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+      throw new Error(error.message);
+    }
+    setLoading(false);
+  };
 
   const removeMedia = (index) => {
     setMedia((prev) => prev.filter((_, i) => i !== index));

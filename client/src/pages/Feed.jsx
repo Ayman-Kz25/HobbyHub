@@ -4,25 +4,45 @@ import Loading from "../components/Loading";
 import Storybar from "../components/Storybar";
 import PostCard from "../components/PostCard";
 import RecentMessages from "../components/RecentMessages";
+import { useAuth } from "@clerk/clerk-react";
+import api from "../api/axios.js";
+import toast from "react-hot-toast";
 
 const Feed = () => {
+  const { getToken } = useAuth();
   const [feeds, setFeeds] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchFeeds = async () => {
-    setFeeds(postsData);
+    try {
+      setLoading(true);
+      const { data } = await api.get('/api/post/feed', {
+        headers: { Authorization: `Bearer ${await getToken()}` },
+      });
+
+      if (data.success) {
+        setFeeds(data.posts);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.message);
+    }
+    setLoading(false);
   };
 
   useEffect(() => {
     fetchFeeds();
-    setLoading(false);
   }, []);
 
   return !loading ? (
     <div className="feed-container">
       <div>
+        
         {/* Stories */}
         <Storybar />
+
         {/* Post List */}
         <div className="p-4 space-y-6">
           {feeds.map((post) => (
