@@ -83,7 +83,7 @@ body {
 
 /* Friends */
 .friends-container{
-  @apply bg-gray-50 max-h-screen overflow-y-auto;
+  @apply relative h-full overflow-y-scroll bg-gray-100 p-6;
 }
 
 .friend-count{
@@ -99,7 +99,7 @@ body {
 }
 
 .friends-container .tab-count {
-  @apply ml-2 text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full;
+  @apply ml-2 text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full group-hover:text-[#e0b23c];
 }
 
 .friends-container .user-profiles {

@@ -6,16 +6,20 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import {
-  connectionsData as friends,
-  followersData as followers,
-  followingData as following,
-  pendingConnectionsData as pendingConnections,
-} from "../data/data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useAuth } from "@clerk/clerk-react";
+import { fetchFriends } from "../features/friends/friendsSlice.js";
+import api from "../api/axios";
+import toast from "react-hot-toast";
 
 const Friends = () => {
   const navigate = useNavigate();
+  const { friends, pendingFriends, followers, following } = useSelector(
+    (state) => state.friends,
+  );
+  const { getToken } = useAuth();
+  const dispatch = useDispatch();
 
   const dataArray = [
     { key: "followers", label: "Followers", value: followers, icon: Users },
@@ -23,7 +27,7 @@ const Friends = () => {
     {
       key: "pending",
       label: "Pending",
-      value: pendingConnections,
+      value: pendingFriends,
       icon: UserRoundPen,
     },
     { key: "friends", label: "Friends", value: friends, icon: UserPlus },
@@ -34,9 +38,59 @@ const Friends = () => {
   const activeData =
     dataArray.find((item) => item.key === activeTab)?.value || [];
 
+  const handleUnfollow = async (userId) => {
+    try {
+      const token = await getToken();
+      const { data } = await api.post(
+        "/api/user/unfollow",
+        { id: userId },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+      if (data.success) {
+        toast.success(data.message);
+        dispatch(fetchFriends(token));
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const acceptRequest = async (userId) => {
+    try {
+      const token = getToken()
+      const { data } = await api.post(
+        "/api/user/accept",
+        { id: userId },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+      if (data.success) {
+        toast.success(data.message);
+        dispatch(fetchFriends(token));
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+  
+  useEffect(() => {
+    const loadFriends = async () => {
+      const token = await getToken();
+      dispatch(fetchFriends(token));
+    };
+    loadFriends();
+  }, [dispatch, getToken]);
+
   return (
     <div className="friends-container no-scrollbar">
-      <div className="max-w-6xl mx-auto p-6">
+      <div className="max-w-6xl mx-auto">
         {/* Title & Subtitle */}
         <div className="mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">
@@ -62,7 +116,7 @@ const Friends = () => {
           {dataArray.map((item) => (
             <button
               key={item.key}
-              className={`tab-btn ${activeTab === item.key ? "bg-gray-50 font-medium text-gray-950" : "text-gray-500 hover:text-gray-950"}`}
+              className={`tab-btn group ${activeTab === item.key ? "bg-gray-50 font-medium text-gray-950" : "text-gray-500 hover:text-[#e0b23c]"}`}
               onClick={() => setActiveTab(item.key)}
             >
               <item.icon size={18} />
@@ -73,9 +127,9 @@ const Friends = () => {
         </div>
 
         {/* Friends */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6 ">
           {activeData.length === 0 ? (
-            <p className="text-gray-500 mt-6">
+            <p className="text-gray-500 text-xl mt-6">
               No {activeTab.toLowerCase()} yet.
             </p>
           ) : (
@@ -85,10 +139,7 @@ const Friends = () => {
               const user = item.user || item;
 
               return (
-                <div
-                  key={user._id}
-                  className="user-profiles"
-                >
+                <div key={user._id} className="user-profiles">
                   <img
                     src={user.profile_pic}
                     alt={user.full_name}
@@ -116,13 +167,26 @@ const Friends = () => {
 
                       {/* Conditional Actions */}
                       {activeTab === "following" && (
-                        <button className="p-2 text-sm rounded bg-gray-200 hover:bg-gray-300 active:scale-95 transition text-gray-950 cursor-pointer focus:outline-none">Unfollow</button>
+                        <button
+                          onClick={() => handleUnfollow(user._id)}
+                          className="p-2 text-sm rounded bg-gray-200 hover:bg-gray-300 active:scale-95 transition text-gray-950 cursor-pointer focus:outline-none"
+                        >
+                          Unfollow
+                        </button>
                       )}
                       {activeTab === "pending" && (
-                        <button className="p-2 text-sm rounded bg-gray-200 hover:bg-gray-100 active:scale-95 transition text-gray-950 cursor-pointer focus:outline-none">Accept</button>
+                        <button
+                          onClick={() => acceptRequest(user._id)}
+                          className="p-2 text-sm rounded bg-gray-200 hover:bg-gray-100 active:scale-95 transition text-gray-950 cursor-pointer focus:outline-none"
+                        >
+                          Accept
+                        </button>
                       )}
                       {activeTab === "friends" && (
-                        <button className="flex items-center justify-center gap-1 p-2 text-sm rounded bg-gray-200 hover:bg-gray-300 active:scale-95 transition text-gray-950 cursor-pointer focus:outline-none" onClick={()=>navigate(`/chats/${user._id}`)}>
+                        <button
+                          className="flex items-center justify-center gap-1 p-2 text-sm rounded bg-gray-200 hover:bg-gray-300 active:scale-95 transition text-gray-950 cursor-pointer focus:outline-none"
+                          onClick={() => navigate(`/chats/${user._id}`)}
+                        >
                           <MessageSquare size={14} /> Chat
                         </button>
                       )}
