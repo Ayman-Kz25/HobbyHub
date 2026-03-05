@@ -1,10 +1,12 @@
 import { useAuth } from "@clerk/clerk-react";
-import { Sparkle, TextIcon, Upload, X } from "lucide-react";
-import { useState } from "react";
+import { LucideSparkles, Sparkle, TextIcon, Upload, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import api from "../api/axios";
+import api from "../api/axios.js";
 
 const StoryModal = ({ setShowModal, fetchStories }) => {
+  const { getToken } = useAuth();
+
   const bgClrs = [
     "#FDE68A",
     "#FBCFE8",
@@ -19,8 +21,6 @@ const StoryModal = ({ setShowModal, fetchStories }) => {
   const [text, setText] = useState("");
   const [media, setMedia] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
-
-  const { getToken } = useAuth();
 
   const MAX_VIDEO_DURATION = 60; //seconds
   const MAX_VIDEO_SIZE_MB = 50; //MB
@@ -63,9 +63,9 @@ const StoryModal = ({ setShowModal, fetchStories }) => {
   const handleCreateStory = async () => {
     const media_type =
       mode === "media"
-        ? media?.startsWith("image")
+        ? media?.type.startsWith("image")
           ? "image"
-          : video
+          : "video"
         : "text";
 
     if (media_type === "text" && !text) {
@@ -75,27 +75,35 @@ const StoryModal = ({ setShowModal, fetchStories }) => {
     let formData = new FormData();
     formData.append("content", text);
     formData.append("media_type", media_type);
-    formData.append("media", media);
     formData.append("bg_clr", bg);
+    if (media) {
+      formData.append("media", media);
+    }
 
     const token = await getToken();
 
     try {
-      const { data } = await api("/api/story/create", formData, {
+      const { data } = await api.post('/api/story/create', formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       if (data.success) {
         setShowModal(false);
-        toast.success(data.message);
+        toast.success("Story created successfully");
         fetchStories();
       } else {
-        toast.error(data.error);
+        toast.error(data.message);
       }
     } catch (error) {
-      toast.error(error.error);
+      toast.error(error.message);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
 
   return (
     <div className="story-modal">
@@ -171,12 +179,12 @@ const StoryModal = ({ setShowModal, fetchStories }) => {
         <button
           className="upload-btn"
           onClick={() =>
-            toast.promise(handleCreateStory, {
+            toast.promise(handleCreateStory(), {
               loading: "Saving...",
             })
           }
         >
-          <Sparkle size={18} /> Upload Story
+          <LucideSparkles size={18} /> Upload Story
         </button>
       </div>
     </div>

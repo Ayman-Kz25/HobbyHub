@@ -14,12 +14,14 @@ export const addUserStory = async (req, res) => {
     let media_url = "";
 
     //upload media to imagekit
-    if (media_type === "image" || media_type === "video") {
+    if ((media_type === "image" || media_type === "video") && media) {
       const fileBuffer = fs.readFileSync(media.path);
+      const base64File = fileBuffer.toString("base64");
 
       const response = await imagekit.files.upload({
-        file: fileBuffer,
+        file: base64File,
         fileName: media.originalname,
+        folder: "stories",
       });
 
       media_url = response.url;
@@ -43,7 +45,7 @@ export const addUserStory = async (req, res) => {
     res.json({ success: true });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, messgae: error.message });
+    res.json({ success: false, message: error.message });
   }
 };
 
@@ -65,6 +67,6 @@ export const getStories = async (req, res) => {
     res.json({ success: true, stories });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, messgae: error.message });
+    res.json({ success: false, message: error.message });
   }
 };
