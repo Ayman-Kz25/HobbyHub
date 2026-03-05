@@ -43,20 +43,20 @@ const UserCard = ({ user }) => {
         {/* Follow Btn */}
         <button
           className="follow-btn"
-          disabled={currentUser?.following.includes(user._id)}
+          disabled={currentUser?.following?.includes(user._id)}
           onClick={handleFollow}
         >
           <UserPlus size={18} />
-          {currentUser?.following.includes(user._id) ? "Following" : "Follow"}
+          {currentUser?.following?.includes(user._id) ? "Following" : "Follow"}
         </button>
 
         {/* Friend Request Btn / Chat Btn */}
         <button
           className="request-btn group"
-          disabled={currentUser?.following.includes(user._id)}
+          disabled={currentUser?.following?.includes(user._id)}
           onClick={handleFriendRequest}
         >
-          {currentUser?.connections.includes(user._id) ? (
+          {currentUser?.connections?.includes(user._id) ? (
             <MessageCircle
               size={20}
               className="group-hover:scale-105 transition"

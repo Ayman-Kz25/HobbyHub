@@ -5,11 +5,11 @@ const ProfileInfo = ({ user, posts, profileId, setShowEdit }) => {
   return (
     <div className="profile-info-container">
       <div className="flex flex-col md:flex-row items-start gap-6">
-        <div className="w-32 h-32 border-4 border-gray-50 shadow-lg absolute -top-16 rounded-full">
+        <div className="w-32 h-32 border-4 border-gray-50 shadow-lg absolute -top-16 rounded-full flex-shrink-0">
           <img
             src={user.profile_pic}
             alt=""
-            className="absolute rounded-full z-2"
+            className="absolute w-full h-full rounded-full z-2"
           />
         </div>
 
