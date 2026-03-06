@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../api/axios";
+import api from "../../api/axios.js";
 
 const initialState = {
     messages: [],
@@ -15,6 +15,7 @@ export const fetchMsgs = createAsyncThunk(
         headers: { Authorization: `Bearer ${token}` },
       },
     );
+    console.log(data)
     return data.success ? data : null;
   },
 );
@@ -36,7 +37,7 @@ const chatSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchMsgs.fulfilled, (state, actions) => {
       if (actions.payload) {
-        state.messages = actions.payload.messages;
+        state.messages = actions.payload.msgs;
       }
     });
   },

@@ -1,6 +1,6 @@
 import {configureStore} from '@reduxjs/toolkit';
-import userReducer from '../features/user/userSlice'
-import chatsReducer from '../features/chats/chatsSlice'
+import userReducer from '../features/user/userSlice.js'
+import chatsReducer from '../features/chats/chatsSlice.js'
 import friendReducer from '../features/friends/friendsSlice.js'
 
 

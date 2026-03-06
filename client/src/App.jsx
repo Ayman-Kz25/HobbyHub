@@ -9,12 +9,13 @@ import Profile from "./pages/Profile";
 import CreatePost from "./pages/CreatePost";
 import Layout from "./pages/Layout";
 import { useUser, useAuth } from "@clerk/clerk-react";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { fetchUser } from "./features/user/userSlice";
 import { fetchFriends } from "./features/friends/friendsSlice";
 import { addMessages } from "./features/chats/chatsSlice";
+import Notification from "./components/Notification";
 
 const App = () => {
   const pathname = useLocation();
@@ -43,15 +44,18 @@ const App = () => {
   useEffect(() => {
     if (user) {
       const eventSource = new EventSource(
-        import.meta.env.VITE_BASEURL + "/api/chat/" + user.id,
+        `${import.meta.env.VITE_BASEURL}/api/chat/${user?.id}`,
       );
 
       eventSource.onmessage = (event) => {
         const message = JSON.parse(event.data);
 
-        if (pathnameRef.current === "/chat/" + message.sender_id._id) {
+        if (pathnameRef.current === `/chat/${message.sender_id._id}`) {
           dispatch(addMessages(message));
         } else {
+          toast.custom((t)=>(
+            <Notification t={t} msg={message}/> 
+          ), {position: "bottom-right"})
         }
       };
       return () => {

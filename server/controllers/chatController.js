@@ -70,7 +70,7 @@ export const sendMsg = async (req, res) => {
       });
     }
 
-    const chat = await Chat.create({
+    const message = await Chat.create({
       sender_id: userId,
       reciever_id,
       text,
@@ -78,10 +78,12 @@ export const sendMsg = async (req, res) => {
       media_url,
     });
 
-    res.json({ succes: true, chat });
+    res.json({ success: true, message });
 
     //send msg to reciever using SSE
-    const msgWithData = await Chat.findById(chat._id).populate("reciever_id");
+    const msgWithData = await Chat.findById(message._id).populate(
+      "reciever_id",
+    );
 
     if (connections[reciever_id]) {
       connections[reciever_id].write(
@@ -98,19 +100,19 @@ export const sendMsg = async (req, res) => {
 export const getChatMsgs = async (req, res) => {
   try {
     const { userId } = req.auth();
-    const { to_user_id } = req.body;
+    const { reciever_id } = req.body;
 
     const msgs = await Chat.find({
       $or: [
         { sender_id: userId, reciever_id },
-        { sender_id: to_user_id, userId },
+        { sender_id: reciever_id, reciever_id: userId },
       ],
     }).sort({ createdAt: -1 });
 
     // Mark Msgs as seen
     await Chat.updateMany(
       {
-        sender_id: to_user_id,
+        sender_id: reciever_id,
         reciever_id: userId,
       },
       { seen: true },
@@ -131,7 +133,7 @@ export const getRecentMsgs = async (req, res) => {
       .populate("sender_id reciever_id")
       .sort({ createdAt: -1 });
 
-    res.json({ success: false, msgs });
+    res.json({ success: true, msgs });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });

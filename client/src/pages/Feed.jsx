@@ -3,7 +3,7 @@ import { postsData } from "../data/data";
 import Loading from "../components/Loading";
 import Storybar from "../components/Storybar";
 import PostCard from "../components/PostCard";
-import RecentMessages from "../components/RecentMessages";
+import RecentMessages from "../components/RecentMessages.jsx";
 import { useAuth } from "@clerk/clerk-react";
 import api from "../api/axios.js";
 import toast from "react-hot-toast";

@@ -2,17 +2,49 @@ import { useEffect, useState } from "react";
 import { recentMessages } from "../data/data";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import { useAuth, useUser } from "@clerk/clerk-react";
+import api from "../api/axios";
 
 const RecentMessages = () => {
   const [msgs, setMsgs] = useState([]);
+  const {user} = useUser()
+  const {getToken} = useAuth()
 
   const fetchRecentMsgs = async () => {
-    setMsgs(recentMessages);
+    try {
+      const token = await getToken();
+      const {data} = await api.get('/api/user/recent-chat', {
+        headers: {Authorization: `Bearer ${token}`}
+      })
+      if(data.success){
+        //Group msgs by the sender and get the recent msgs from each sender
+        const grpMsg = data.chats.reduce((acc, msg)=>{
+          const senderId = msg.sender_id._id;
+          if(!acc[senderId] || new Date(msg.createdAt) > new Date(acc[senderId].createdAt)){
+            acc[senderId] = msg
+          }
+          return acc;
+         }, {})
+
+        //sort msgs by date
+        const sortMsgs = Object.values(grpMsg).sort((a,b)=>new Date(b.createdAt) - new Date(a.createdAt));
+
+        setMsgs(sortMsgs);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+        toast.error(error.message);
+    }
   };
 
   useEffect(() => {
-    fetchRecentMsgs();
-  }, []);
+    if(user){
+      fetchRecentMsgs();
+      setInterval(fetchRecentMsgs, 3000);
+      return ()=>{clearInterval()}
+    }
+  }, [user]);
 
   return (
     <div className="msg-container">

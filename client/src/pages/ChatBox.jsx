@@ -5,26 +5,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useAuth } from "@clerk/clerk-react";
 import api from "../api/axios.js";
-import { addMessages, fetchMsgs, resetMessages } from "../features/chats/chatsSlice.js";
+import {
+  addMessages,
+  fetchMsgs,
+  resetMessages,
+} from "../features/chats/chatsSlice.js";
 import toast from "react-hot-toast";
 
 const ChatBox = () => {
-  const {msgs = []} = useSelector((state)=>state.chats);
-  const {userId} = useParams();
-  const {getToken} = useAuth();
+  const { messages } = useSelector((state) => state.chats);
+  const { userId } = useParams();
+  const { getToken } = useAuth();
   const dispatch = useDispatch();
 
   const [text, setText] = useState("");
   const [media, setMedia] = useState(null);
   const [user, setUser] = useState(null);
   const msgsEndRef = useRef(null);
-  
-  const friends = useSelector((state)=>state.friends.friends);
+
+  const friends = useSelector((state) => state.friends.friends);
 
   const fetchUserMsgs = async () => {
     try {
       const token = await getToken();
-      dispatch(fetchMsgs({token, userId}))
+      dispatch(fetchMsgs({ token, userId }));
     } catch (error) {
       toast.error(error.message);
     }
@@ -32,47 +36,48 @@ const ChatBox = () => {
 
   const sendMsg = async () => {
     try {
-      if(!text && !media) return
+      if (!text && !media) return;
       const token = await getToken();
       const formData = new FormData();
-      formData.append('reciever_id', userId);
-      formData.append('text', text);
-      media && formData.append('media', media);
+      formData.append("reciever_id", userId);
+      formData.append("text", text);
+      media && formData.append("media", media);
 
-      const {data} = await api.post('/api/chat/send', formData, {
-        headers: {Authorization: `Bearer ${token}`}
-      })
+      const { data } = await api.post("/api/chat/send", formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-      if(data.success){
-        setText('');
+      if (data.success) {
+        setText("");
         setMedia(null);
-        dispatch(addMessages(data.message))
+        dispatch(addMessages(data.message));
       } else {
-        throw new Error(data.message)
+        console.log(data.message);
+        throw new Error(data.message);
       }
     } catch (error) {
       toast.error(error.message);
     }
   };
 
-  useEffect(()=>{
-    fetchUserMsgs()
-    return ()=>{
+  useEffect(() => {
+    fetchUserMsgs();
+    return () => {
       dispatch(resetMessages());
-    }
+    };
   }, [userId]);
 
-  useEffect(()=>{
-    if(friends.length > 0){
-      const user = friends.find(friend => friend._id === userId);
+  useEffect(() => {
+    if (friends.length > 0) {
+      const user = friends.find((friend) => friend._id === userId);
       setUser(user);
     }
-  },[friends, userId])
+  }, [friends, userId]);
 
   useEffect(() => {
     msgsEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [msgs]);
-
+  }, [messages]);
+// console.log(messages)
   return (
     user && (
       <div className="chat-box">
@@ -89,36 +94,33 @@ const ChatBox = () => {
         </div>
         <div className="flex-1 p-5 md:px-10 overflow-y-scroll no-scrollbar">
           <div className="space-y-4 max-w-4xl mx-auto">
-            {msgs
-              .toSorted((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+            {messages
+              .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
               .map((msg, index) => (
                 <div
                   key={index}
-                  className={`flex flex-col ${msg.sender._id !== user._id ? "items-start" : "items-end"}`}
+                  className={`flex flex-col ${msg.sender_id === user?.id ? "items-end" : "items-start"}`}
                 >
                   <div
-                    className={`p-2 text-sm max-w-sm bg-gray-50 text-gray-900 rounded-xl shadow ${msg.sender._id !== user._id ? "rounded-bl-none" : "rounded-br-none"}`}
+                    className={`p-2 text-sm max-w-sm rounded-xl shadow ${msg.sender_id === user?.id ? "bg-yellow-200 text-gray-900 rounded-br-none" : "bg-gray-100 text-gray-900 rounded-bl-none"}`}
                   >
-                    {/* Image */}
-                    {msg.msgType === "image" && msg.media && (
-                      <img
-                        src={msg.media.url}
-                        alt=""
-                        className="w-full max-w-sm rounded-xl mb-1"
-                      />
-                    )}
-
-                    {/* Video */}
-                    {msg.msgType === "video" && msg.media && (
-                      <video
-                        src={msg.media.url}
-                        controls
-                        className="w-full max-w-sm rounded-xl mb-1"
-                      />
-                    )}
+                    {msg.media_url &&
+                      (msg.media_url.includes("video") ? (
+                        <video
+                          src={msg.media_url}
+                          controls
+                          className="w-full max-w-sm rounded-xl mb-1"
+                        />
+                      ) : (
+                        <img
+                          src={msg.media_url}
+                          alt=""
+                          className="w-full max-w-sm rounded-xl mb-1"
+                        />
+                      ))}
 
                     {/* Text */}
-                    {msg.msgType === "text" && <p>{msg.text}</p>}
+                    {msg.msg_type === "text" && <p>{msg.text}</p>}
                   </div>
                 </div>
               ))}
@@ -171,19 +173,23 @@ const ChatBox = () => {
                 />
               </label>
               <input
-                  type="text"
-                  placeholder="Type a message..."
-                  className="flex-1 bg-transparent outline-none text-sm sm:text-base text-gray-800 placeholder:text-gray-400"
-                  value={text}
-                  onChange={(e) => setText(e.target.value)}
-                  onKeyDown={(e)=>e.key === 'Enter' && sendMsg()}
-                />
+                type="text"
+                placeholder="Type a message..."
+                className="flex-1 bg-transparent outline-none text-sm sm:text-base text-gray-800 placeholder:text-gray-400"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && sendMsg()}
+              />
 
-                {/* Send Btn */}
-                <button onClick={sendMsg} disabled={!text && !media} className=" flex items-center gap-2 shrink-0 bg-gradient-to-r from-[#ECC154] to-amber-200 hover:to-[#e0b23c] disabled:opacity-50 text-gray-900 text-sm font-medium px-4 py-1.5 transition rounded-full active:scale-95 not-disabled:cursor-pointer">
-                  Send
-                  <SendIcon size={16} />
-                </button>
+              {/* Send Btn */}
+              <button
+                onClick={sendMsg}
+                disabled={!text && !media}
+                className=" flex items-center gap-2 shrink-0 bg-gradient-to-r from-[#ECC154] to-amber-200 hover:to-[#e0b23c] disabled:opacity-50 text-gray-900 text-sm font-medium px-4 py-1.5 transition rounded-full active:scale-95 not-disabled:cursor-pointer"
+              >
+                Send
+                <SendIcon size={16} />
+              </button>
             </div>
           </div>
         </div>
