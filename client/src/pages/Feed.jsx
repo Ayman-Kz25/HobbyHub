@@ -53,8 +53,8 @@ const Feed = () => {
       {/* Right Sidebar */}
       <div className="hidden xl:flex flex-col gap-4 w-[320px] sticky top-6 h-fit">
         {/* Profile Greeting Card */}
-        <div className="bg-gray-50 p-5 rounded-xl shadow-sm text-center border border-gray-300">
-          <img src={user.imageUrl} className="w-16 h-16 rounded-full mx-auto object-cover" />
+        <div className="bg-gray-50 p-5 rounded-xl shadow text-center border border-gray-300">
+          <img src={user.imageUrl} className="w-20 h-20 rounded-full mx-auto object-cover" />
 
           <h3 className="font-semibold mt-3 text-gray-800">{user.fullName}</h3>
 
