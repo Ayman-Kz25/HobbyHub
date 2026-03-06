@@ -3,30 +3,31 @@ import { useNavigate } from "react-router-dom"
 
 const Notification = ({t, msg}) => {
     const navigate = useNavigate();
+    
+    const sender = msg.sender_id || {};
 
   return (
-    <div className="max-w-md w-full bg-gray-50 shadow-lg rounded-lg flex border border-gray-300 hover:scale-105 transition">
+    <div className="max-w-md w-full bg-gray-50 shadow-lg rounded-lg flex border border-gray-300 hover:scale-105 transition transform">
       <div className="flex-1 p-4">
         <div className="flex items-start">
           <img
-            src={msg.sender_id.profile_pic}
+            src={sender.profile_pic}
             alt=""
-            className="h-10 w-10 rounded-full flex-shrink-0 mt-0.5"
+            className="h-10 w-10 rounded-full flex-shrink-0 mt-0.5 object-cover"
           />
           <div className="ml-3 flex-1">
             <p className="text-sm font-medium text-gray-900">
-              {msg.sender_id.full_name}
+              {sender.full_name}
             </p>
-            <p className="text-sm text-gray-500">{msg.text.slice(0, 50)}</p>
+            <p className="text-sm text-gray-500">{msg.text?.slice(0, 50)}</p>
           </div>
         </div>
-        <div className="flex border border-gray-200">
+        <div className="flex mt-3 border-t border-gray-200">
           <button
-            onClick={() => {
-              navigate(`/chat/${msg.sender_id._id}`);
+            onClick={() => {navigate(`/chat/${sender._id}`);
               toast.dismiss(t.id);
             }}
-            className="p-4 font-semibold text-amber-400"
+            className="ml-auto px-4 py-2 font-semibold text-amber-400 hover:bg-gray-100 transition rounded-b-lg"
           >
             Reply
           </button>

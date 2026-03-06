@@ -37,7 +37,7 @@ const chatSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchMsgs.fulfilled, (state, actions) => {
       if (actions.payload) {
-        state.messages = actions.payload.msgs;
+        state.messages = actions.payload.messages;
       }
     });
   },

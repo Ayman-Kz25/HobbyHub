@@ -94,15 +94,15 @@ const ChatBox = () => {
         </div>
         <div className="flex-1 p-5 md:px-10 overflow-y-scroll no-scrollbar">
           <div className="space-y-4 max-w-4xl mx-auto">
-            {messages
+            {[...messages]
               .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
               .map((msg, index) => (
                 <div
                   key={index}
-                  className={`flex flex-col ${msg.sender_id === user?.id ? "items-end" : "items-start"}`}
+                  className={`flex flex-col ${msg.sender_id !== userId ? "items-end" : "items-start"}`}
                 >
                   <div
-                    className={`p-2 text-sm max-w-sm rounded-xl shadow ${msg.sender_id === user?.id ? "bg-yellow-200 text-gray-900 rounded-br-none" : "bg-gray-100 text-gray-900 rounded-bl-none"}`}
+                    className={`p-2 text-sm max-w-sm rounded-xl shadow ${msg.sender_id !== userId ? "bg-yellow-100 text-gray-900 rounded-br-none" : "bg-gray-100 text-gray-900 rounded-bl-none"}`}
                   >
                     {msg.media_url &&
                       (msg.media_url.includes("video") ? (
