@@ -1,15 +1,73 @@
 import React, { useEffect, useRef, useState } from "react";
 import { messagesData, userData } from "../data/data";
 import { Image, ImageIcon, SendIcon, X } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { useAuth } from "@clerk/clerk-react";
+import api from "../api/axios.js";
+import { addMessages, fetchMsgs, resetMessages } from "../features/chats/chatsSlice.js";
+import toast from "react-hot-toast";
 
 const ChatBox = () => {
-  const msgs = messagesData;
+  const {msgs = []} = useSelector((state)=>state.chats);
+  const {userId} = useParams();
+  const {getToken} = useAuth();
+  const dispatch = useDispatch();
+
   const [text, setText] = useState("");
   const [media, setMedia] = useState(null);
-  const [user, setUser] = useState(userData);
+  const [user, setUser] = useState(null);
   const msgsEndRef = useRef(null);
+  
+  const friends = useSelector((state)=>state.friends.friends);
 
-  const sendMsg = async () => {};
+  const fetchUserMsgs = async () => {
+    try {
+      const token = await getToken();
+      dispatch(fetchMsgs({token, userId}))
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  const sendMsg = async () => {
+    try {
+      if(!text && !media) return
+      const token = await getToken();
+      const formData = new FormData();
+      formData.append('reciever_id', userId);
+      formData.append('text', text);
+      media && formData.append('media', media);
+
+      const {data} = await api.post('/api/chat/send', formData, {
+        headers: {Authorization: `Bearer ${token}`}
+      })
+
+      if(data.success){
+        setText('');
+        setMedia(null);
+        dispatch(addMessages(data.message))
+      } else {
+        throw new Error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(()=>{
+    fetchUserMsgs()
+    return ()=>{
+      dispatch(resetMessages());
+    }
+  }, [userId]);
+
+  useEffect(()=>{
+    if(friends.length > 0){
+      const user = friends.find(friend => friend._id === userId);
+      setUser(user);
+    }
+  },[friends, userId])
 
   useEffect(() => {
     msgsEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -29,7 +87,7 @@ const ChatBox = () => {
             <p className="text-sm text-gray-400 -mt-1.5">@{user.user_name}</p>
           </div>
         </div>
-        <div className="p-5 md:px-10 h-full overflow-y-scroll no-scrollbar">
+        <div className="flex-1 p-5 md:px-10 overflow-y-scroll no-scrollbar">
           <div className="space-y-4 max-w-4xl mx-auto">
             {msgs
               .toSorted((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
@@ -68,8 +126,8 @@ const ChatBox = () => {
           </div>
         </div>
         {/* Bottom Msg Bar */}
-        <div className="sticky bottom-0 px-3 sm:px-6 py-3">
-          <div className="max-w-4xl mx-auto">
+        <div className="px-3 sm:px-6 py-4 bg-gray-50">
+          <div className="relative max-w-4xl mx-auto">
             {media && (
               <div className="mb-3 relative w-fit">
                 {media.type.startsWith("image") ? (

@@ -90,9 +90,9 @@ const Friends = () => {
 
   return (
     <div className="friends-container no-scrollbar">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         {/* Title & Subtitle */}
-        <div className="mb-6 sm:mb-8">
+        <div className="mb-6 sm:mb-8 mt-6">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">
             Friends
           </h1>
@@ -121,7 +121,6 @@ const Friends = () => {
             >
               <item.icon size={18} />
               <span className="ml-1">{item.label}</span>
-              <span className="tab-count">{item.value?.length || 0}</span>
             </button>
           ))}
         </div>

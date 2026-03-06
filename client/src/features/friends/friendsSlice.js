@@ -14,7 +14,6 @@ export const fetchFriends = createAsyncThunk(
     const { data } = await api.get("/api/user/friends", {
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(data)
     return data.success ? data : null;
   },
 );

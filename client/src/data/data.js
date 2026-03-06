@@ -61,6 +61,8 @@ export const user3Data = {
   ...userData,
   _id: "u3",
   user_name: "alikhan",
+  //email: alikhanu3@gmail.com
+  //password: alikhanu3
   full_name: "Ali Khan",
   bio: "Photographer chasing golden hours 📸 Capturing stories through light, shadows, and spontaneous moments.",
   profile_pic:

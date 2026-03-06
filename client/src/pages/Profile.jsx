@@ -10,7 +10,6 @@ import { useAuth } from "@clerk/clerk-react";
 import api from "../api/axios.js";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-import Post from "../../../server/models/Post.js";
 
 const Profile = () => {
   const currentUser = useSelector((state) => state.user.value);
@@ -21,6 +20,7 @@ const Profile = () => {
   const [posts, setPosts] = useState([]);
   const [activeTab, setActiveTab] = useState("posts");
   const [showEdit, setShowEdit] = useState(false);
+  const [likedPosts, setLikedPosts] = useState([]);
 
   const fetchUser = async (profileId) => {
     const token = await getToken();
@@ -41,6 +41,23 @@ const Profile = () => {
     }
   };
 
+  const fetchLikedPost = async () => {
+    const token = await getToken();
+    try {
+      const { data } = await api.get(
+        `/api/post/liked`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+      if (data.success) {
+        setLikedPosts(data.posts);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   useEffect(() => {
     if (profileId) {
       fetchUser(profileId);
@@ -48,6 +65,12 @@ const Profile = () => {
       fetchUser(currentUser._id);
     }
   }, [profileId, currentUser]);
+
+  useEffect(()=>{
+    if(activeTab === "likes"){
+      fetchLikedPost();
+    }
+  },[activeTab])
 
   return user ? (
     <div className="profile-container no-scrollbar">
@@ -141,8 +164,8 @@ const Profile = () => {
           {/* Likes */}
           {activeTab === "likes" && (
             <div className="mt-6 flex flex-col items-center gap-6">
-              {posts.length > 0 ? (
-                posts.map((post) => <PostCard key={post._id} post={post} />)
+              {likedPosts.length > 0 ? (
+                likedPosts.map((post) => <PostCard key={post._id} post={post} />)
               ) : (
                 <p className="text-gray-700 my-auto">No liked posts yet!</p>
               )}

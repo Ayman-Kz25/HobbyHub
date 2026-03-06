@@ -150,7 +150,7 @@ body {
 
 /* Chat Box */
 .chat-box {
-  @apply flex flex-col max-h-screen scroll-smooth;
+  @apply flex flex-col h-screen scroll-smooth;
 }
 
 .chat-top-bar {

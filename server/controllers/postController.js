@@ -39,7 +39,7 @@ export const addPost = async (req, res) => {
                   {
                     quality: "auto",
                     format: "webp",
-                    width: '1280',
+                    width: "1280",
                   },
                 ],
           });
@@ -101,6 +101,24 @@ export const likePost = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+//Get liked Posts
+export const getLikedPost = async (req, res) => {
+  try {
+    const { userId } = req.auth();
+
+    const posts = await Post.find({
+      likes_count: userId,
+    })
+      .populate("user")
+      .sort({ createdAt: -1 });
+
+    res.json({ success: true, posts });
+  } catch (error) {
+    console.log(error.message);
     res.json({ success: false, message: error.message });
   }
 };
