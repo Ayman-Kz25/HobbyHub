@@ -14,7 +14,6 @@ const userSchema = new Schema(
     followers: [{ type: String, ref: "User" }],
     following: [{ type: String, ref: "User" }],
     friends: [{ type: String, ref: "User" }],
-    
   },
   { timestamps: true, minimize: false },
 );
