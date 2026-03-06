@@ -82,7 +82,7 @@ export const sendMsg = async (req, res) => {
 
     //send msg to reciever using SSE
     const msgWithData = await Chat.findById(message._id).populate(
-      "reciever_id",
+      "sender_id",
     );
 
     if (connections[reciever_id]) {

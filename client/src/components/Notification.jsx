@@ -4,10 +4,11 @@ import { useNavigate } from "react-router-dom"
 const Notification = ({t, msg}) => {
     const navigate = useNavigate();
     
-    const sender = msg.sender_id || {};
+    const sender = msg.sender_id;
+    const senderId = sender?._id || msg.sender_id;
 
   return (
-    <div className="max-w-md w-full bg-gray-50 shadow-lg rounded-lg flex border border-gray-300 hover:scale-105 transition transform">
+    <div className="max-w-sm w-full bg-gray-50 shadow-lg rounded-lg flex border border-gray-300 hover:scale-105 transition transform">
       <div className="flex-1 p-4">
         <div className="flex items-start">
           <img
@@ -24,7 +25,7 @@ const Notification = ({t, msg}) => {
         </div>
         <div className="flex mt-3 border-t border-gray-200">
           <button
-            onClick={() => {navigate(`/chat/${sender._id}`);
+            onClick={() => {if(senderId) navigate(`/chats/${senderId}`);
               toast.dismiss(t.id);
             }}
             className="ml-auto px-4 py-2 font-semibold text-amber-400 hover:bg-gray-100 transition rounded-b-lg"
