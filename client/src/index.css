@@ -62,7 +62,7 @@ body {
 
 /* Feed */
 .feed-container {
-  @apply h-full overflow-y-scroll py-10 xl:pr-5 flex items-start justify-center xl:gap-8;
+  @apply h-full overflow-y-scroll py-10 flex justify-center gap-8 px-6;
   scrollbar-width: none;
 }
 

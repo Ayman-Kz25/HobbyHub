@@ -39,7 +39,7 @@ const Feed = () => {
 
   return !loading ? (
     <div className="feed-container">
-      <div>
+      <div className="w-full max-w-2xl">
         {/* Stories */}
         <Storybar />
 
@@ -51,12 +51,12 @@ const Feed = () => {
         </div>
       </div>
       {/* Right Sidebar */}
-      <div className="max-xl:hidden sticky top-0">
+      <div className="hidden xl:flex flex-col gap-4 w-[320px] sticky top-6 h-fit">
         {/* Profile Greeting Card */}
-        <div className="max-w-xs bg-gray-50 p-4 rounded-lg shadow text-center">
-          <img src={user.imageUrl} className="w-16 h-16 rounded-full mx-auto" />
+        <div className="bg-gray-50 p-5 rounded-xl shadow-sm text-center border border-gray-300">
+          <img src={user.imageUrl} className="w-16 h-16 rounded-full mx-auto object-cover" />
 
-          <h3 className="font-semibold mt-2">{user.fullName}</h3>
+          <h3 className="font-semibold mt-3 text-gray-800">{user.fullName}</h3>
 
           <p className="text-xs text-gray-500">Welcome back👋🏻</p>
         </div>
