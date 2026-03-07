@@ -6,7 +6,10 @@ import Story from "../models/Story.js";
 import Chat from "../models/Chat.js";
 
 // Create a client to send and receive events
-export const inngest = new Inngest({ id: "hobbyhub-app" });
+export const inngest = new Inngest({
+  id: "hobbyhub-app",
+  eventKey: process.env.INGEST_EVENT_KEY,
+});
 
 // Inngest function to save the user data to the database
 const syncUserCreation = inngest.createFunction(
@@ -322,5 +325,5 @@ export const functions = [
   syncUserDeletion,
   sendNewFriendRequestRemainder,
   deleteStory,
-  sendUnseenMsgsNotification
+  sendUnseenMsgsNotification,
 ];
