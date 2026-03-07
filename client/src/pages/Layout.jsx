@@ -17,9 +17,9 @@ const Layout = () => {
         <Outlet />
       </div>
       {openSidebar ? (
-        <X className="btn" onClick={() => setOpenSidebar(false)} />
+        <X size={36} className="btn" onClick={() => setOpenSidebar(false)} />
       ) : (
-        <Menu className="btn" onClick={() => setOpenSidebar(true)} />
+        <Menu size={36} className="btn" onClick={() => setOpenSidebar(true)} />
       )}
     </div>
   ) : (

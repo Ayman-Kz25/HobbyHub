@@ -57,7 +57,7 @@ body {
 
 /* Layout */
 .btn {
-  @apply absolute top-3 right-3 p-2 z-100 bg-gray-100 rounded-md shadow w-10 h-10 text-gray-950 active:text-[#ECC154] sm:hidden;
+  @apply absolute top-3 right-0.5 p-2 z-100 bg-gray-100 rounded-md shadow text-gray-950 active:text-[#ECC154] sm:hidden;
 }
 
 /* Feed */
