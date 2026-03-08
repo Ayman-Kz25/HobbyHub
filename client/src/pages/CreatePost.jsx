@@ -166,7 +166,7 @@ const CreatePost = () => {
               onClick={() =>
                 toast.promise(handleSubmit(), {
                   loading: "Uploading...",
-                  success: "Post Uploade successfully!",
+                  success: "Post Upload successfully!",
                   error: "Failed to upload post",
                 })
               }
