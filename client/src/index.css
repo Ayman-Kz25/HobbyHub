@@ -31,11 +31,11 @@ body {
 }
 
 .logo {
-  @apply h-34 md:h-48 object-contain;
+  @apply h-32 md:h-48 object-contain;
 }
 
 .brand-content {
-  @apply flex items-center gap-3 md:mb-12 my-1 mt-10;
+  @apply flex items-center gap-3 md:mb-12 my-1 mt-4 mb-2 sm:mt-10;
 }
 
 .star {
@@ -57,13 +57,12 @@ body {
 
 /* Layout */
 .btn {
-  @apply absolute top-3 right-0.5 p-2 z-100 bg-gray-100 rounded-md shadow text-gray-950 active:text-[#ECC154] sm:hidden;
+  @apply absolute top-3 right-0.5 p-2 z-50 bg-gray-100 rounded-md shadow text-gray-950 active:text-[#ECC154] sm:hidden;
 }
 
 /* Feed */
 .feed-container {
-  @apply h-full overflow-y-scroll py-10 flex justify-center gap-8 px-6;
-  scrollbar-width: none;
+  @apply py-10 flex justify-center gap-8 px-6;
 }
 
 /* Chats */
@@ -110,7 +109,7 @@ body {
   @apply flex-1 p-2 text-sm rounded bg-gradient-to-l from-[#ECC154] to-amber-200 hover:to-[#e0b23c] active:scale-95 transition text-gray-950 font-medium cursor-pointer focus:outline-none;
 }
 
-.btn {
+.user-profiles .btn {
   @apply p-2 text-sm rounded bg-gray-100 hover:bg-gray-200 active:scale-95 transition text-gray-950 cursor-pointer focus:outline-none;
 }
 
@@ -160,7 +159,7 @@ body {
 /* ==== Components ==== */
 /* Sidebar */
 .sidebar-container {
-  @apply w-60 xl:w-72 bg-gray-900 border-r border-gray-200 flex flex-col justify-between items-center fixed sm:relative top-0 left-0  h-screen z-40 transition-all duration-300 ease-in-out;
+  @apply w-60 xl:w-72 bg-gray-900 border-r border-gray-200 flex flex-col justify-between items-center fixed max-sm:h-full sm:sticky top-0 left-0 z-40 transition-all duration-300 ease-in-out;
 }
 
 .sidebar-container .post-btn {
@@ -191,7 +190,7 @@ body {
 
 /* Storybar */
 .storybar-container {
-  @apply w-screen sm:w-[calc(100vw-240px)] lg:max-w-2xl overflow-x-auto px-4 max-md:mt-5;
+  @apply w-full sm:w-[calc(100vw-240px)] lg:max-w-2xl overflow-x-auto px-4 max-md:mt-5;
   scrollbar-width: none;
 }
 

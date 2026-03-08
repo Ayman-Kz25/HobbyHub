@@ -20,10 +20,10 @@ const Login = () => {
           </div>
           {/* Title Goes Here */}
           <h1 className='title'>
-            More Than Social, Truly Connected
+            Welcome to HobbyHub
           </h1>
           <p className='subtitle'> 
-            Experience seamless networking with LinkUp.
+            Where Hobbies Bring People Together
           </p>
         </div>
         <span className='md:h-20'></span>
